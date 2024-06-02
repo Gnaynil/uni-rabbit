@@ -18,7 +18,17 @@ const useMemberStore = common_vendor.defineStore(
   },
   // TODO: 持久化
   {
-    persist: true
+    persist: {
+      // 调整为兼容多端的API
+      storage: {
+        setItem(key, value) {
+          common_vendor.index.setStorageSync(key, value);
+        },
+        getItem(key) {
+          return common_vendor.index.getStorageSync(key);
+        }
+      }
+    }
   }
 );
 exports.useMemberStore = useMemberStore;

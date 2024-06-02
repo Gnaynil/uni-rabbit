@@ -9,7 +9,7 @@ export const useMemberStore = defineStore(
     const profile = ref<any>()
 
     // 保存会员信息，登录时使用
-    const setProfile = (val: any) => {
+    const setProfile = (val : any) => {
       profile.value = val
     }
 
@@ -27,6 +27,16 @@ export const useMemberStore = defineStore(
   },
   // TODO: 持久化
   {
-    persist: true,
+    persist: {
+      // 调整为兼容多端的API
+      storage: {
+        setItem(key:any, value:any) {
+          uni.setStorageSync(key, value)
+        },
+        getItem(key:any) {
+          return uni.getStorageSync(key)
+        },
+      },
+    },
   },
 )
