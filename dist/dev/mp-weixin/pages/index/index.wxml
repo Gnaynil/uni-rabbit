@@ -1,1 +1,1 @@
-<custom-nav-bar u-i="01f9263e-0" bind:__l="__l"/><view class="index">index</view>
+<custom-nav-bar u-i="01f9263e-0" bind:__l="__l"/><xtx-swiper wx:if="{{a}}" u-i="01f9263e-1" bind:__l="__l" u-p="{{a}}"/><view class="index">index</view>

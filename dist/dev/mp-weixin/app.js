@@ -10,7 +10,7 @@ if (!Math) {
   "./pages/category/category.js";
   "./pages/login/login.js";
 }
-const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
+const _sfc_main = {
   __name: "App",
   setup(__props) {
     common_vendor.onLaunch(() => {
@@ -25,7 +25,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     return () => {
     };
   }
-});
+};
 const App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "D:/code/uni-rabbit/src/App.vue"]]);
 function createApp() {
   const app = common_vendor.createSSRApp(App);

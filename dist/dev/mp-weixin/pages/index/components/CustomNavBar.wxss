@@ -30,7 +30,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  padding-top: 20px;
+  padding-top: var(--2f7c5bc6);
 }
 .navbar .logo {
   display: flex;

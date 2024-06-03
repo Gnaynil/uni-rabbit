@@ -6,7 +6,7 @@ const baseURL = 'https://pcapi-xiaotuxian-front-devtest.itheima.net'
 // 拦截器配置
 const httpInterceptor = {
   // 拦截前触发
-  invoke(options : UniApp.RequestOptions) {
+  invoke(options) {
     // 1. 非 http 开头需拼接地址
     if (!options.url.startsWith('http')) {
       options.url = baseURL + options.url
@@ -46,21 +46,15 @@ uni.addInterceptor('uploadFile', httpInterceptor)
  *    3.3 网络错误 -> 提示用户换网络
  */
 
-type Data<T> = {
-  code : string
-  msg : string
-  result : T
-}
-
-export const httpInstance = <T>(options : UniApp.RequestOptions) => {
-  return new Promise<Data<T>>((resolve, reject) => {
+export const httpInstance = (options) => {
+  return new Promise((resolve, reject) => {
     uni.request({
       ...options,
       //2.请求成功
       success(res) {
         // 状态码 2xx，参考 axios 的设计
         if (res.statusCode >= 200 && res.statusCode < 300) {
-          resolve(res.data as Data<T>)
+          resolve(res.data)
         } else if (res.statusCode === 401) {
           const memberStore = useMemberStore()
           memberStore.clearProfile()
@@ -72,7 +66,7 @@ export const httpInstance = <T>(options : UniApp.RequestOptions) => {
           // 其他错误 -> 根据后端错误信息轻提示
           uni.showToast({
             icon: 'none',
-            title: (res.data as Data<T>).msg || '请求错误',
+            title: res.data.msg || '请求错误',
           })
           reject(res)
         }

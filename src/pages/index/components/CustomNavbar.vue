@@ -1,11 +1,10 @@
-<script setup lang="ts">
+<script setup>
 //获取屏幕边界到安全区域的距离
 const {safeAreaInsets } = uni.getSystemInfoSync()
-console.log(safeAreaInsets);
 </script>
 
 <template>
-  <view class="navbar" :style="{ paddingTop: safeAreaInsets?.top + 'px' }">
+  <view class="navbar">
     <!-- logo文字 -->
     <view class="logo">
       <image class="logo-image" src="@/static/images/logo.png"></image>
@@ -27,7 +26,7 @@ console.log(safeAreaInsets);
   position: relative;
   display: flex;
   flex-direction: column;
-  padding-top: 20px;
+  padding-top: v-bind("safeAreaInsets?.top +'px'");
   .logo {
     display: flex;
     align-items: center;

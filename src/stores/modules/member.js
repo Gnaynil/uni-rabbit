@@ -2,14 +2,12 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 // 定义 Store
-export const useMemberStore = defineStore(
-  'member',
-  () => {
+export const useMemberStore = defineStore('member',() => {
     // 会员信息
-    const profile = ref<any>()
+    const profile = ref()
 
     // 保存会员信息，登录时使用
-    const setProfile = (val : any) => {
+    const setProfile = (val) => {
       profile.value = val
     }
 
@@ -30,10 +28,10 @@ export const useMemberStore = defineStore(
     persist: {
       // 调整为兼容多端的API
       storage: {
-        setItem(key:any, value:any) {
+        setItem(key, value) {
           uni.setStorageSync(key, value)
         },
-        getItem(key:any) {
+        getItem(key) {
           return uni.getStorageSync(key)
         },
       },

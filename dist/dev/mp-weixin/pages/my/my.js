@@ -3,14 +3,14 @@ const common_vendor = require("../../common/vendor.js");
 require("../../stores/index.js");
 const utils_http = require("../../utils/http.js");
 const stores_modules_member = require("../../stores/modules/member.js");
-const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
+const _sfc_main = {
   __name: "my",
   setup(__props) {
     const memberStore = stores_modules_member.useMemberStore();
     const getData = async () => {
       const res = await utils_http.httpInstance({
         method: "GET",
-        url: "/member/profile",
+        url: "/home/banner",
         header: {}
       });
       console.log(res);
@@ -27,7 +27,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       };
     };
   }
-});
+};
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "D:/code/uni-rabbit/src/pages/my/my.vue"]]);
 wx.createPage(MiniProgramPage);
 //# sourceMappingURL=my.js.map

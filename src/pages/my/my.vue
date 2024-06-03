@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { useMemberStore } from '@/stores'
 import {httpInstance} from '@/utils/http'
 
@@ -6,7 +6,7 @@ const memberStore = useMemberStore()
 const getData = async() =>{
   const res = await httpInstance({
     method:'GET',
-    url:'/member/profile',
+    url:'/home/banner',
     header:{}
   })
   console.log(res);
