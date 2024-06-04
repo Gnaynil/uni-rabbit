@@ -23,17 +23,27 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-page {
-  background-color: #f7f7f7;
-  height: 100%;
-  overflow: hidden;
-}
-.viewport {
-  height: 100%;
+/* 前台类目 */
+.category {
+  margin: 20rpx 0 0;
+  padding: 10rpx 0;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  min-height: 328rpx;
 }
-.scroll-view {
-  flex: 1;
-  overflow: hidden;
+.category .category-item {
+  width: 150rpx;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+.category .category-item .icon {
+  width: 100rpx;
+  height: 100rpx;
+}
+.category .category-item .text {
+  font-size: 26rpx;
+  color: #666;
 }

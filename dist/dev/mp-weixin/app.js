@@ -9,19 +9,11 @@ if (!Math) {
   "./pages/cart/cart.js";
   "./pages/category/category.js";
   "./pages/login/login.js";
+  "./pages/hot/hot.js";
 }
 const _sfc_main = {
   __name: "App",
   setup(__props) {
-    common_vendor.onLaunch(() => {
-      console.log("App Launch");
-    });
-    common_vendor.onShow(() => {
-      console.log("App Show");
-    });
-    common_vendor.onHide(() => {
-      console.log("App Hide");
-    });
     return () => {
     };
   }

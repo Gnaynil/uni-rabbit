@@ -4,7 +4,8 @@
     "pages/my/my",
     "pages/cart/cart",
     "pages/category/category",
-    "pages/login/login"
+    "pages/login/login",
+    "pages/hot/hot"
   ],
   "window": {
     "navigationBarTextStyle": "black",

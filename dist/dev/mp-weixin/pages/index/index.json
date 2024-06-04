@@ -4,6 +4,10 @@
   "navigationBarTitleText": "首页",
   "usingComponents": {
     "xtx-swiper": "../../components/XtxSwiper",
-    "custom-nav-bar": "./components/CustomNavBar"
+    "xtx-guess": "../../components/XtxGuess",
+    "custom-nav-bar": "./components/CustomNavBar",
+    "category-panel": "./components/CategoryPanel",
+    "hot-panel": "./components/HotPanel",
+    "page-skeleton": "./components/PageSkeleton"
   }
 }

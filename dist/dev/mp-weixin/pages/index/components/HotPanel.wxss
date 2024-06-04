@@ -23,17 +23,53 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-page {
-  background-color: #f7f7f7;
-  height: 100%;
-  overflow: hidden;
+/* 热门推荐 */
+.hot {
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 508rpx;
+  margin: 20rpx 20rpx 0;
+  border-radius: 10rpx;
+  background-color: #fff;
 }
-.viewport {
-  height: 100%;
+.hot .title {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 24rpx 0;
+  font-size: 32rpx;
+  color: #262626;
+  position: relative;
+}
+.hot .title .title-desc {
+  font-size: 24rpx;
+  color: #7f7f7f;
+  margin-left: 18rpx;
+}
+.hot .item {
   display: flex;
   flex-direction: column;
+  width: 50%;
+  height: 254rpx;
+  border-right: 1rpx solid #eee;
+  border-top: 1rpx solid #eee;
 }
-.scroll-view {
+.hot .item .title {
+  justify-content: start;
+}
+.hot .item:nth-child(2n) {
+  border-right: 0 none;
+}
+.hot .item:nth-child(-n+2) {
+  border-top: 0 none;
+}
+.hot .item .image {
+  width: 150rpx;
+  height: 150rpx;
+}
+.hot .cards {
   flex: 1;
-  overflow: hidden;
+  padding: 15rpx 20rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
