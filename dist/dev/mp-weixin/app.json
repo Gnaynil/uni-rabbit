@@ -5,7 +5,8 @@
     "pages/cart/cart",
     "pages/category/category",
     "pages/login/login",
-    "pages/hot/hot"
+    "pages/hot/hot",
+    "pages/goods/goods"
   ],
   "window": {
     "navigationBarTextStyle": "black",

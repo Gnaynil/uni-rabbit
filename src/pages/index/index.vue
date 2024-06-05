@@ -81,12 +81,6 @@ page {
   overflow: hidden;
 }
 
-.viewport {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
 .scroll-view {
   flex: 1;
   overflow: hidden;

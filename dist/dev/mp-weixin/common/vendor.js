@@ -46,6 +46,26 @@ function parseStringStyle(cssText) {
   });
   return ret;
 }
+function normalizeClass(value) {
+  let res = "";
+  if (isString(value)) {
+    res = value;
+  } else if (isArray(value)) {
+    for (let i = 0; i < value.length; i++) {
+      const normalized = normalizeClass(value[i]);
+      if (normalized) {
+        res += normalized + " ";
+      }
+    }
+  } else if (isObject$1(value)) {
+    for (const name in value) {
+      if (value[name]) {
+        res += name + " ";
+      }
+    }
+  }
+  return res.trim();
+}
 const toDisplayString = (val) => {
   return isString(val) ? val : val == null ? "" : isArray(val) || isObject$1(val) && (val.toString === objectToString || !isFunction(val.toString)) ? JSON.stringify(val, replacer, 2) : String(val);
 };
@@ -136,8 +156,8 @@ const def = (obj, key, value) => {
   });
 };
 const looseToNumber = (val) => {
-  const n = parseFloat(val);
-  return isNaN(n) ? val : n;
+  const n2 = parseFloat(val);
+  return isNaN(n2) ? val : n2;
 };
 const LINEFEED = "\n";
 const SLOT_DEFAULT_NAME = "d";
@@ -959,7 +979,7 @@ const $off = defineSyncApi(API_OFF, (name, callback) => {
   }
   if (!isArray(name))
     name = [name];
-  name.forEach((n) => emitter.off(n, callback));
+  name.forEach((n2) => emitter.off(n2, callback));
 }, OffProtocol);
 const $emit = defineSyncApi(API_EMIT, (name, ...args) => {
   emitter.emit(name, ...args);
@@ -3698,9 +3718,9 @@ const PublicInstanceProxyHandlers = {
     }
     let normalizedProps;
     if (key[0] !== "$") {
-      const n = accessCache[key];
-      if (n !== void 0) {
-        switch (n) {
+      const n2 = accessCache[key];
+      if (n2 !== void 0) {
+        switch (n2) {
           case 1:
             return setupState[key];
           case 2:
@@ -6050,6 +6070,7 @@ const o = (value, key) => vOn(value, key);
 const f = (source, renderItem) => vFor(source, renderItem);
 const s = (value) => stringifyStyle(value);
 const e = (target, ...sources) => extend(target, ...sources);
+const n = (value) => normalizeClass(value);
 const t = (val) => toDisplayString(val);
 const p = (props) => renderProps(props);
 const sr = (ref2, id, opts) => setRef(ref2, id, opts);
@@ -7611,13 +7632,127 @@ const createHook = (lifecycle) => (hook, target = getCurrentInstance()) => {
   !isInSSRComponentSetup && injectHook(lifecycle, hook, target);
 };
 const onLoad = /* @__PURE__ */ createHook(ON_LOAD);
+class MPAnimation {
+  constructor(options, _this) {
+    this.options = options;
+    this.animation = index.createAnimation({
+      ...options
+    });
+    this.currentStepAnimates = {};
+    this.next = 0;
+    this.$ = _this;
+  }
+  _nvuePushAnimates(type, args) {
+    let aniObj = this.currentStepAnimates[this.next];
+    let styles = {};
+    if (!aniObj) {
+      styles = {
+        styles: {},
+        config: {}
+      };
+    } else {
+      styles = aniObj;
+    }
+    if (animateTypes1.includes(type)) {
+      if (!styles.styles.transform) {
+        styles.styles.transform = "";
+      }
+      let unit = "";
+      if (type === "rotate") {
+        unit = "deg";
+      }
+      styles.styles.transform += `${type}(${args + unit}) `;
+    } else {
+      styles.styles[type] = `${args}`;
+    }
+    this.currentStepAnimates[this.next] = styles;
+  }
+  _animateRun(styles = {}, config = {}) {
+    let ref2 = this.$.$refs["ani"].ref;
+    if (!ref2)
+      return;
+    return new Promise((resolve2, reject) => {
+      nvueAnimation.transition(ref2, {
+        styles,
+        ...config
+      }, (res) => {
+        resolve2();
+      });
+    });
+  }
+  _nvueNextAnimate(animates, step = 0, fn) {
+    let obj = animates[step];
+    if (obj) {
+      let {
+        styles,
+        config
+      } = obj;
+      this._animateRun(styles, config).then(() => {
+        step += 1;
+        this._nvueNextAnimate(animates, step, fn);
+      });
+    } else {
+      this.currentStepAnimates = {};
+      typeof fn === "function" && fn();
+      this.isEnd = true;
+    }
+  }
+  step(config = {}) {
+    this.animation.step(config);
+    return this;
+  }
+  run(fn) {
+    this.$.animationData = this.animation.export();
+    this.$.timer = setTimeout(() => {
+      typeof fn === "function" && fn();
+    }, this.$.durationTime);
+  }
+}
+const animateTypes1 = [
+  "matrix",
+  "matrix3d",
+  "rotate",
+  "rotate3d",
+  "rotateX",
+  "rotateY",
+  "rotateZ",
+  "scale",
+  "scale3d",
+  "scaleX",
+  "scaleY",
+  "scaleZ",
+  "skew",
+  "skewX",
+  "skewY",
+  "translate",
+  "translate3d",
+  "translateX",
+  "translateY",
+  "translateZ"
+];
+const animateTypes2 = ["opacity", "backgroundColor"];
+const animateTypes3 = ["width", "height", "left", "right", "top", "bottom"];
+animateTypes1.concat(animateTypes2, animateTypes3).forEach((type) => {
+  MPAnimation.prototype[type] = function(...args) {
+    this.animation[type](...args);
+    return this;
+  };
+});
+function createAnimation(option, _this) {
+  if (!_this)
+    return;
+  clearTimeout(_this.timer);
+  return new MPAnimation(option, _this);
+}
 exports._export_sfc = _export_sfc;
+exports.createAnimation = createAnimation;
 exports.createPinia = createPinia;
 exports.createSSRApp = createSSRApp;
 exports.defineStore = defineStore;
 exports.e = e;
 exports.f = f;
 exports.index = index;
+exports.n = n;
 exports.o = o;
 exports.onLoad = onLoad;
 exports.onMounted = onMounted;

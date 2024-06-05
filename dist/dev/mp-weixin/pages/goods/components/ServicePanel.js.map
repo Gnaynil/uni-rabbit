@@ -1,0 +1,1 @@
+{"version":3,"file":"ServicePanel.js","sources":["../../../../../../uniComponent:/RDovY29kZS91bmktcmFiYml0L3NyYy9wYWdlcy9nb29kcy9jb21wb25lbnRzL1NlcnZpY2VQYW5lbC52dWU"],"sourcesContent":["import Component from 'D:/code/uni-rabbit/src/pages/goods/components/ServicePanel.vue'\nwx.createComponent(Component)"],"names":[],"mappings":";;;;;;;;;;;;;;AACA,GAAG,gBAAgB,SAAS;"}

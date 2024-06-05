@@ -10,6 +10,7 @@ if (!Math) {
   "./pages/category/category.js";
   "./pages/login/login.js";
   "./pages/hot/hot.js";
+  "./pages/goods/goods.js";
 }
 const _sfc_main = {
   __name: "App",

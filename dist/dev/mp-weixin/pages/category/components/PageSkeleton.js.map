@@ -1,0 +1,1 @@
+{"version":3,"file":"PageSkeleton.js","sources":["../../../../../../uniComponent:/RDovY29kZS91bmktcmFiYml0L3NyYy9wYWdlcy9jYXRlZ29yeS9jb21wb25lbnRzL1BhZ2VTa2VsZXRvbi52dWU"],"sourcesContent":["import Component from 'D:/code/uni-rabbit/src/pages/category/components/PageSkeleton.vue'\nwx.createComponent(Component)"],"names":[],"mappings":";;;;;;;AACA,GAAG,gBAAgB,SAAS;"}
