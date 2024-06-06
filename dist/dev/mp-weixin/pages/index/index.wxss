@@ -32,3 +32,8 @@ page {
   flex: 1;
   overflow: hidden;
 }
+.guess {
+  background-color: #f7f7f8;
+  margin-top: 20rpx;
+  padding-bottom: var(--90f19098);
+}

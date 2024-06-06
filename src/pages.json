@@ -6,7 +6,7 @@
       // uni-ui 规则如下配置
       "^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue",
       //以Xtx开头的组件,在components中查找引入
-      "^Xtx(.*)" : "@/components/Xtx$1.vue"
+      "^Xtx(.*)": "@/components/Xtx$1.vue"
     }
   },
   "pages": [
@@ -24,6 +24,7 @@
     {
       "path": "pages/my/my",
       "style": {
+        "navigationStyle": "default",
         "navigationBarTitleText": "我的"
       }
     },
@@ -92,5 +93,37 @@
         "selectedIconPath": "static/tabs/user_selected.png"
       }
     ]
+  },
+  //分包加载配置
+  "subPackages": [{
+    "root": "pagesMember",
+    "pages": [{
+        "path": "settings/settings",
+        "style": {
+          "navigationBarTitleText": "设置"
+        }
+      },
+      {
+        "path": "profile/profile",
+        "style": {
+          "navigationStyle": "custom",
+          "navigationBarTextStyle": "white",
+          "navigationBarTitleText": "个人信息"
+        }
+      },
+      {
+        "path": "address/address",
+        "style": {
+          "navigationBarTitleText": "地址管理"
+        }
+      }
+    ]
+  }],
+  //声明分包预下载的规则
+  "preloadRule": {
+    "pages/my/my": {
+      "network": "all",
+      "packages": ["pagesMember"]
+    }
   }
 }

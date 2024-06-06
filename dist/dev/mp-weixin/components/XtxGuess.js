@@ -7,10 +7,7 @@ require("../stores/modules/member.js");
 const _sfc_main = {
   __name: "XtxGuess",
   setup(__props, { expose }) {
-    common_vendor.useCssVars((_ctx) => ({
-      "5939dce6": 88 + common_vendor.unref(Info).statusBarHeight + "px"
-    }));
-    const Info = common_vendor.index.getSystemInfoSync();
+    common_vendor.index.getSystemInfoSync();
     const guessLikeList = common_vendor.ref([]);
     const pageParams = {
       page: 1,
@@ -45,8 +42,7 @@ const _sfc_main = {
     });
     return (_ctx, _cache) => {
       return {
-        a: common_vendor.s(_ctx.__cssVars()),
-        b: common_vendor.f(guessLikeList.value, (item, k0, i0) => {
+        a: common_vendor.f(guessLikeList.value, (item, k0, i0) => {
           return {
             a: item.picture,
             b: common_vendor.t(item.name),
@@ -55,9 +51,7 @@ const _sfc_main = {
             e: `/pages/goods/goods?id=${item.id}`
           };
         }),
-        c: common_vendor.s(_ctx.__cssVars()),
-        d: common_vendor.t(finish.value ? "没有更多数据~" : "正在加载..."),
-        e: common_vendor.s(_ctx.__cssVars())
+        b: common_vendor.t(finish.value ? "没有更多数据~" : "正在加载...")
       };
     };
   }

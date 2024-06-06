@@ -11,6 +11,9 @@ if (!Math) {
   "./pages/login/login.js";
   "./pages/hot/hot.js";
   "./pages/goods/goods.js";
+  "./pagesMember/settings/settings.js";
+  "./pagesMember/profile/profile.js";
+  "./pagesMember/address/address.js";
 }
 const _sfc_main = {
   __name: "App",

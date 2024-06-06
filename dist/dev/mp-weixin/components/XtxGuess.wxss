@@ -94,5 +94,4 @@
   text-align: center;
   font-size: 28rpx;
   color: #666;
-  padding-bottom: var(--5939dce6);
 }

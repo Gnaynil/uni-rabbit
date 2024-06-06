@@ -1,0 +1,1 @@
+{"version":3,"file":"address.js","sources":["../../../../../uniPage:/cGFnZXNNZW1iZXJcYWRkcmVzc1xhZGRyZXNzLnZ1ZQ"],"sourcesContent":["import MiniProgramPage from 'D:/code/uni-rabbit/src/pagesMember/address/address.vue'\nwx.createPage(MiniProgramPage)"],"names":[],"mappings":";;;;;;;AACA,GAAG,WAAW,eAAe;"}

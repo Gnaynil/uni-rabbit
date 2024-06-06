@@ -1,6 +1,7 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const services_home = require("../../services/home.js");
+const composables_index = require("../../composables/index.js");
 require("../../utils/http.js");
 require("../../stores/index.js");
 require("../../stores/modules/member.js");
@@ -21,6 +22,10 @@ const PageSkeleton = () => "./components/PageSkeleton.js";
 const _sfc_main = {
   __name: "index",
   setup(__props) {
+    common_vendor.useCssVars((_ctx) => ({
+      "90f19098": 88 + common_vendor.unref(Info).statusBarHeight + "px"
+    }));
+    const Info = common_vendor.index.getSystemInfoSync();
     const bannerList = common_vendor.ref([]);
     const getBannerData = async () => {
       const res = await services_home.getHomeBannerAPI();
@@ -42,12 +47,7 @@ const _sfc_main = {
       await Promise.all([getBannerData(), getCategoryData(), getHotData()]);
       isLoading.value = false;
     });
-    const guessRef = common_vendor.ref();
-    const onScrolltolower = () => {
-      var _a;
-      console.log("滚动到底部");
-      (_a = guessRef.value) == null ? void 0 : _a.getMore();
-    };
+    const { guessRef, onScrolltolower } = composables_index.useGuessList();
     const isTriggered = common_vendor.ref(false);
     const onRefresherrefresh = async () => {
       var _a, _b;
@@ -58,24 +58,26 @@ const _sfc_main = {
     };
     return (_ctx, _cache) => {
       return common_vendor.e({
-        a: isLoading.value
+        a: common_vendor.s(_ctx.__cssVars()),
+        b: isLoading.value
       }, isLoading.value ? {} : {
-        b: common_vendor.p({
+        c: common_vendor.p({
           data: bannerList.value
         }),
-        c: common_vendor.p({
+        d: common_vendor.p({
           categoryList: categoryList.value
         }),
-        d: common_vendor.p({
+        e: common_vendor.p({
           hotList: hotList.value
         }),
-        e: common_vendor.sr(guessRef, "01f9263e-5", {
+        f: common_vendor.sr(guessRef, "01f9263e-5", {
           "k": "guessRef"
         })
       }, {
-        f: common_vendor.o(onRefresherrefresh),
-        g: isTriggered.value,
-        h: common_vendor.o(onScrolltolower)
+        g: common_vendor.o(onRefresherrefresh),
+        h: isTriggered.value,
+        i: common_vendor.o((...args) => common_vendor.unref(onScrolltolower) && common_vendor.unref(onScrolltolower)(...args)),
+        j: common_vendor.s(_ctx.__cssVars())
       });
     };
   }

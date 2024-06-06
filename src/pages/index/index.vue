@@ -4,8 +4,10 @@ import CustomNavBar from './components/CustomNavBar.vue'
 import CategoryPanel from './components/CategoryPanel.vue'
 import HotPanel from './components/HotPanel.vue'
 import { getHomeBannerAPI, getHomeCategoryAPI, getHomeHotItemAPI } from '@/services/home.js'
+import { useGuessList  } from '@/composables/index.js'
 import { onLoad } from '@dcloudio/uni-app'
 import PageSkeleton from './components/PageSkeleton.vue'
+const Info= uni.getSystemInfoSync()
 //获取轮播图数据
 const bannerList = ref([])
 const getBannerData = async () => {
@@ -34,11 +36,7 @@ onLoad(async () => {
   isLoading.value = false
 })
 //滚动触底触发
-const guessRef = ref()
-const onScrolltolower = () => {
-  console.log('滚动到底部')
-  guessRef.value?.getMore()
-}
+const {guessRef,onScrolltolower} = useGuessList()
 // 当前下拉刷新状态
 const isTriggered = ref(false)
 // 自定义下拉刷新被触发
@@ -61,6 +59,7 @@ const onRefresherrefresh = async () => {
     :refresher-triggered="isTriggered"
     @scrolltolower="onScrolltolower"
     scroll-y
+    enable-back-to-top
     class="scroll-view"
   >
     <PageSkeleton v-if="isLoading" />
@@ -84,5 +83,10 @@ page {
 .scroll-view {
   flex: 1;
   overflow: hidden;
+}
+.guess {
+  background-color: #f7f7f8;
+  margin-top: 20rpx;
+  padding-bottom: v-bind("88+Info.statusBarHeight+'px'");
 }
 </style>

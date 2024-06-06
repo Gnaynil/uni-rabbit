@@ -1,6 +1,7 @@
 <script setup>
 import { onLoad } from '@dcloudio/uni-app'
 import { getHomeGoodsGuessLikeAPI } from '@/services/home.js'
+import { useGuessList  } from '@/composables/index.js'
 import { onMounted, ref } from 'vue'
 //获取屏幕边界到安全区域的距离
 const Info= uni.getSystemInfoSync()
@@ -141,6 +142,6 @@ defineExpose({
   text-align: center;
   font-size: 28rpx;
   color: #666;
-  padding-bottom: v-bind("88+Info.statusBarHeight+'px'");
+
 }
 </style>

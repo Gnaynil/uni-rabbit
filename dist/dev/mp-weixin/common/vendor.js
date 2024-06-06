@@ -7765,4 +7765,5 @@ exports.src_default = src_default;
 exports.t = t;
 exports.unref = unref;
 exports.useCssVars = useCssVars;
+exports.wx$1 = wx$1;
 //# sourceMappingURL=vendor.js.map
