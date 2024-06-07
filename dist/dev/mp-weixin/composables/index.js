@@ -4,6 +4,7 @@ const useGuessList = () => {
   const guessRef = common_vendor.ref();
   const onScrolltolower = () => {
     var _a;
+    console.log("到底了");
     (_a = guessRef.value) == null ? void 0 : _a.getMore();
   };
   return { guessRef, onScrolltolower };

@@ -8374,6 +8374,7 @@ function createAnimation(option, _this) {
 exports.SchemaValidator = SchemaValidator;
 exports._export_sfc = _export_sfc;
 exports.bindIngXMixins = bindIngXMixins;
+exports.computed = computed;
 exports.createAnimation = createAnimation;
 exports.createPinia = createPinia;
 exports.createSSRApp = createSSRApp;

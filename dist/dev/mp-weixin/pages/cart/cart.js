@@ -1,5 +1,9 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
+if (!Math) {
+  CartMain();
+}
+const CartMain = () => "./components/CartMain.js";
 const _sfc_main = {
   __name: "cart",
   setup(__props) {
