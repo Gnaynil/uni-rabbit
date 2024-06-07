@@ -1,4 +1,4 @@
-import {httpInstance, htttpInstance} from '@/utils/http'
+import {httpInstance} from '@/utils/http'
 
 export const getCategoryTopAPI = () =>{
   return httpInstance({

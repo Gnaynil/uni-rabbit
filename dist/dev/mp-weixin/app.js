@@ -14,6 +14,7 @@ if (!Math) {
   "./pagesMember/settings/settings.js";
   "./pagesMember/profile/profile.js";
   "./pagesMember/address/address.js";
+  "./pagesMember/address-form/address-form.js";
 }
 const _sfc_main = {
   __name: "App",
