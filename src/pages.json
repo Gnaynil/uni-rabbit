@@ -102,32 +102,57 @@
   },
   //分包加载配置
   "subPackages": [{
-    "root": "pagesMember",
-    "pages": [{
-        "path": "settings/settings",
-        "style": {
-          "navigationBarTitleText": "设置"
+      "root": "pagesMember",
+      "pages": [{
+          "path": "settings/settings",
+          "style": {
+            "navigationBarTitleText": "设置"
+          }
+        },
+        {
+          "path": "profile/profile",
+          "style": {
+            "navigationStyle": "custom",
+            "navigationBarTextStyle": "white",
+            "navigationBarTitleText": "个人信息"
+          }
+        },
+        {
+          "path": "address/address",
+          "style": {
+            "navigationBarTitleText": "地址管理"
+          }
+        },
+        {
+          "path": "address-form/address-form"
         }
-      },
-      {
-        "path": "profile/profile",
-        "style": {
-          "navigationStyle": "custom",
-          "navigationBarTextStyle": "white",
-          "navigationBarTitleText": "个人信息"
+      ]
+    },
+    {
+      "root": "pagesOrder",
+      "pages": [{
+          "path": "create/create",
+          "style": {
+            "navigationBarTitleText": "填写订单"
+          }
+        },
+        {
+          "path": "detail/detail",
+          "style": {
+            "navigationBarTitleText": "订单详情",
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "payment/payment",
+          "style": {
+            "navigationBarTitleText": "支付成功"
+            // "navigationStyle": "custom"
+          }
         }
-      },
-      {
-        "path": "address/address",
-        "style": {
-          "navigationBarTitleText": "地址管理"
-        }
-      },
-      {
-        "path": "address-form/address-form"
-      }
-    ]
-  }],
+      ]
+    }
+  ],
   //声明分包预下载的规则
   "preloadRule": {
     "pages/my/my": {

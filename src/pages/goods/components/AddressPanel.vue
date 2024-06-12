@@ -1,34 +1,42 @@
 <script setup>
+import { onShow } from '@dcloudio/uni-app'
+import { ref, watch } from 'vue'
 // 子调父
-const emit = defineEmits(['close'])
-</script>
+const emit = defineEmits(['close','index'])
+const props = defineProps(['address'])
 
+const onSelected = (index) => {
+  props.address.forEach((v) => (v.selected = false))
+  props.address[index].selected = true
+  //点击退出
+  emit('close')
+  //传递点击对象下标
+  emit('index',index)
+}
+//我的收货地址
+const newAddress = ()=>{
+  uni.navigateTo({
+    url:"/pagesMember/address/address"
+  })
+}
+</script>
 <template>
-  <view class="address-panel" @tap="emit('close')">
+  <view class="address-panel">
     <!-- 关闭按钮 -->
     <text class="close icon-close"></text>
     <!-- 标题 -->
     <view class="title">配送至</view>
     <!-- 内容 -->
     <view class="content">
-      <view class="item">
-        <view class="user">李明 13824686868</view>
-        <view class="address">北京市顺义区后沙峪地区安平北街6号院</view>
-        <text class="icon icon-checked"></text>
-      </view>
-      <view class="item">
-        <view class="user">王东 13824686868</view>
-        <view class="address">北京市顺义区后沙峪地区安平北街6号院</view>
-        <text class="icon icon-ring"></text>
-      </view>
-      <view class="item">
-        <view class="user">张三 13824686868</view>
-        <view class="address">北京市朝阳区孙河安平北街6号院</view>
-        <text class="icon icon-ring"></text>
+      <view class="item" v-for="(item, index) in address" :key="item.id" @tap="onSelected(index)">
+        <view class="user">{{ item.receiver }} {{ item.contact }}</view>
+        <view class="address">{{ item.fullLocation }} {{ item.address }}</view>
+        <text class="icon icon-checked" v-if="item.selected"></text>
+        <text class="icon icon-ring" v-else></text>
       </view>
     </view>
     <view class="footer">
-      <view class="button primary"> 新建地址 </view>
+      <view class="button primary" @tap="newAddress"> 我的收货地址 </view>
       <view v-if="false" class="button primary">确定</view>
     </view>
   </view>

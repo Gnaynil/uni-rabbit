@@ -20,7 +20,6 @@ const goodsList = ref([])
 const getGoodsList = async () => {
   const res = await getGoodsByIdAPI(props.id)
   goodsList.value = res.result
-  console.log(goodsList.value)
   //SKU所需组件格式
   localdata.value = {
     _id: res.result.id,
@@ -67,6 +66,16 @@ const openPopup = (name) => {
   popupName.value = name
   popup.value.open()
 }
+//已选择的地址
+const selectedAddress = ref('')
+const selectedId = ref('')
+const sendAddress = (index) => {
+  selectedAddress.value =
+    goodsList.value.userAddresses[index].fullLocation +
+    ' ' +
+    goodsList.value.userAddresses[index].address
+  selectedId.value = goodsList.value.userAddresses[index].id
+}
 
 //是否显示SKU组件
 const isShowSku = ref(false)
@@ -96,6 +105,14 @@ const onAddCart = async (e) => {
     isShowSku.value = false
   }, 500)
 }
+//立即购买事件
+const onBuyNow = (e) => {
+  console.log(selectedId.value)
+  console.log(e)
+  uni.navigateTo({
+    url: `/pagesOrder/create/create?skuId=${e._id}&count=${e.buy_num}&addressId=${selectedId.value}`,
+  })
+}
 </script>
 
 <template>
@@ -112,6 +129,7 @@ const onAddCart = async (e) => {
       borderColor: '#27BA9B',
       backgroundColor: '#E9F8F5',
     }"
+    @buy-now="onBuyNow"
     @add-cart="onAddCart"
   ></vk-data-goods-sku-popup>
   <scroll-view scroll-y class="viewport" v-if="isFinish">
@@ -149,7 +167,8 @@ const onAddCart = async (e) => {
         </view>
         <view class="item arrow" @tap="openPopup('address')">
           <text class="label">送至</text>
-          <text class="text ellipsis"> 请选择收获地址 </text>
+          <text class="text ellipsis" v-if="selectedAddress"> {{ selectedAddress }} </text>
+          <text class="text ellipsis" v-else> 请选择收货地址 </text>
         </view>
         <view class="item arrow" @tap="openPopup('service')">
           <text class="label">服务</text>
@@ -222,8 +241,13 @@ const onAddCart = async (e) => {
     </view>
   </view>
   <uni-popup ref="popup" type="bottom" backgroundColor="#fff">
-    <AddressPanel v-if="popupName === 'address'" @close="popup?.close()" />
-    <ServicePanel v-if="popupName === 'service'" @close="popup?.close()" />
+    <AddressPanel
+      v-show="popupName === 'address'"
+      @close="popup?.close()"
+      @index="sendAddress"
+      :address="goodsList.userAddresses"
+    />
+    <ServicePanel v-show="popupName === 'service'" @close="popup?.close()" />
   </uni-popup>
 </template>
 

@@ -4,7 +4,7 @@ export const useGuessList = () => {
   const guessRef = ref()
   // 滚动触底事件
   const onScrolltolower = () => {
-    console.log('到底了');
+    // console.log('到底了');
     guessRef.value?.getMore()
   }
   // 返回 ref 和事件处理函数

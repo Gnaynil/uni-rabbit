@@ -33,7 +33,6 @@ const _sfc_main = {
     const getGoodsList = async () => {
       const res = await services_goods.getGoodsByIdAPI(props.id);
       goodsList.value = res.result;
-      console.log(goodsList.value);
       localdata.value = {
         _id: res.result.id,
         name: res.result.name,
@@ -75,6 +74,12 @@ const _sfc_main = {
       popupName.value = name;
       popup.value.open();
     };
+    const selectedAddress = common_vendor.ref("");
+    const selectedId = common_vendor.ref("");
+    const sendAddress = (index) => {
+      selectedAddress.value = goodsList.value.userAddresses[index].fullLocation + " " + goodsList.value.userAddresses[index].address;
+      selectedId.value = goodsList.value.userAddresses[index].id;
+    };
     const isShowSku = common_vendor.ref(false);
     const localdata = common_vendor.ref({});
     const mode = common_vendor.ref(1);
@@ -96,15 +101,23 @@ const _sfc_main = {
         isShowSku.value = false;
       }, 500);
     };
+    const onBuyNow = (e) => {
+      console.log(selectedId.value);
+      console.log(e);
+      common_vendor.index.navigateTo({
+        url: `/pagesOrder/create/create?skuId=${e._id}&count=${e.buy_num}&addressId=${selectedId.value}`
+      });
+    };
     return (_ctx, _cache) => {
       var _a, _b, _c, _d, _e, _f;
       return common_vendor.e({
         a: common_vendor.sr(skuPopupRef, "02d9cc46-0", {
           "k": "skuPopupRef"
         }),
-        b: common_vendor.o(onAddCart),
-        c: common_vendor.o(($event) => isShowSku.value = $event),
-        d: common_vendor.p({
+        b: common_vendor.o(onBuyNow),
+        c: common_vendor.o(onAddCart),
+        d: common_vendor.o(($event) => isShowSku.value = $event),
+        e: common_vendor.p({
           localdata: localdata.value,
           mode: mode.value,
           ["add-cart-background-color"]: "#FFA868",
@@ -116,39 +129,43 @@ const _sfc_main = {
           },
           modelValue: isShowSku.value
         }),
-        e: isFinish.value
-      }, isFinish.value ? {
-        f: common_vendor.f((_a = goodsList.value) == null ? void 0 : _a.mainPictures, (item, index, i0) => {
+        f: isFinish.value
+      }, isFinish.value ? common_vendor.e({
+        g: common_vendor.f((_a = goodsList.value) == null ? void 0 : _a.mainPictures, (item, index, i0) => {
           return {
             a: item,
             b: common_vendor.o(($event) => onTapImage(item), item),
             c: item
           };
         }),
-        g: common_vendor.o(onChange),
-        h: common_vendor.t(currentIndex.value + 1),
-        i: common_vendor.t((_c = (_b = goodsList.value) == null ? void 0 : _b.mainPictures) == null ? void 0 : _c.length),
-        j: common_vendor.t(goodsList.value.price),
-        k: common_vendor.t(goodsList.value.name),
-        l: common_vendor.t(goodsList.value.desc),
-        m: common_vendor.t(common_vendor.unref(selectArrText)),
-        n: common_vendor.o(($event) => openSkuPopup(1)),
-        o: common_vendor.o(($event) => openPopup("address")),
-        p: common_vendor.o(($event) => openPopup("service")),
-        q: common_vendor.f((_d = goodsList.value.details) == null ? void 0 : _d.properties, (item, k0, i0) => {
+        h: common_vendor.o(onChange),
+        i: common_vendor.t(currentIndex.value + 1),
+        j: common_vendor.t((_c = (_b = goodsList.value) == null ? void 0 : _b.mainPictures) == null ? void 0 : _c.length),
+        k: common_vendor.t(goodsList.value.price),
+        l: common_vendor.t(goodsList.value.name),
+        m: common_vendor.t(goodsList.value.desc),
+        n: common_vendor.t(common_vendor.unref(selectArrText)),
+        o: common_vendor.o(($event) => openSkuPopup(1)),
+        p: selectedAddress.value
+      }, selectedAddress.value ? {
+        q: common_vendor.t(selectedAddress.value)
+      } : {}, {
+        r: common_vendor.o(($event) => openPopup("address")),
+        s: common_vendor.o(($event) => openPopup("service")),
+        t: common_vendor.f((_d = goodsList.value.details) == null ? void 0 : _d.properties, (item, k0, i0) => {
           return {
             a: common_vendor.t(item.name),
             b: common_vendor.t(item.value),
             c: item.name
           };
         }),
-        r: common_vendor.f((_e = goodsList.value.details) == null ? void 0 : _e.pictures, (item, k0, i0) => {
+        v: common_vendor.f((_e = goodsList.value.details) == null ? void 0 : _e.pictures, (item, k0, i0) => {
           return {
             a: item,
             b: item
           };
         }),
-        s: common_vendor.f(goodsList.value.similarProducts, (item, k0, i0) => {
+        w: common_vendor.f(goodsList.value.similarProducts, (item, k0, i0) => {
           return {
             a: item.picture,
             b: common_vendor.t(item.name),
@@ -157,28 +174,28 @@ const _sfc_main = {
             e: `/pages/goods/goods?id=${item.id}`
           };
         })
-      } : {}, {
-        t: common_vendor.o(($event) => openSkuPopup(2)),
-        v: common_vendor.o(($event) => openSkuPopup(3)),
-        w: ((_f = common_vendor.unref(safeAreaInsets)) == null ? void 0 : _f.bottom) + "px",
-        x: popupName.value === "address"
-      }, popupName.value === "address" ? {
-        y: common_vendor.o(($event) => {
+      }) : {}, {
+        x: common_vendor.o(($event) => openSkuPopup(2)),
+        y: common_vendor.o(($event) => openSkuPopup(3)),
+        z: ((_f = common_vendor.unref(safeAreaInsets)) == null ? void 0 : _f.bottom) + "px",
+        A: popupName.value === "address",
+        B: common_vendor.o(($event) => {
           var _a2;
           return (_a2 = popup.value) == null ? void 0 : _a2.close();
-        })
-      } : {}, {
-        z: popupName.value === "service"
-      }, popupName.value === "service" ? {
-        A: common_vendor.o(($event) => {
+        }),
+        C: common_vendor.o(sendAddress),
+        D: common_vendor.p({
+          address: goodsList.value.userAddresses
+        }),
+        E: popupName.value === "service",
+        F: common_vendor.o(($event) => {
           var _a2;
           return (_a2 = popup.value) == null ? void 0 : _a2.close();
-        })
-      } : {}, {
-        B: common_vendor.sr(popup, "02d9cc46-2", {
+        }),
+        G: common_vendor.sr(popup, "02d9cc46-2", {
           "k": "popup"
         }),
-        C: common_vendor.p({
+        H: common_vendor.p({
           type: "bottom",
           backgroundColor: "#fff"
         })

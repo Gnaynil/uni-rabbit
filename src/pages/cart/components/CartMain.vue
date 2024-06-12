@@ -398,7 +398,7 @@ const gotoPayment = () => {
   left: 0;
   right: 0;
   bottom: var(--window-bottom);
-  z-index: 1;
+  z-index: 99;
 
   height: 100rpx;
   padding: 0 20rpx;

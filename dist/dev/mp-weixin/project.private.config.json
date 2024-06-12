@@ -3,5 +3,25 @@
   "projectname": "%E5%B0%8F%E5%85%94%E9%B2%9C%E5%84%BF",
   "setting": {
     "compileHotReLoad": true
+  },
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "pagesOrder/detail/detail",
+          "pathName": "pagesOrder/detail/detail",
+          "query": "id=1800796453317120001",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pagesOrder/create/create",
+          "pathName": "pagesOrder/create/create",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        }
+      ]
+    }
   }
 }

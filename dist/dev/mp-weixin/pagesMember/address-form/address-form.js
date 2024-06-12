@@ -106,7 +106,6 @@ const _sfc_main = {
     const getAddress = async () => {
       const res = await services_address.getMemberAddressByIdAPI(query.id);
       form.value = res.result;
-      console.log(form.value);
     };
     common_vendor.onLoad(() => getAddress());
     return (_ctx, _cache) => {

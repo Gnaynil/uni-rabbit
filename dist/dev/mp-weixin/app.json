@@ -18,6 +18,14 @@
         "address/address",
         "address-form/address-form"
       ]
+    },
+    {
+      "root": "pagesOrder",
+      "pages": [
+        "create/create",
+        "detail/detail",
+        "payment/payment"
+      ]
     }
   ],
   "window": {

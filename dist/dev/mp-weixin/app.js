@@ -7,6 +7,7 @@ if (!Math) {
   "./pages/index/index.js";
   "./pages/my/my.js";
   "./pages/cart/cart.js";
+  "./pages/cart/cart2.js";
   "./pages/category/category.js";
   "./pages/login/login.js";
   "./pages/hot/hot.js";
@@ -15,6 +16,9 @@ if (!Math) {
   "./pagesMember/profile/profile.js";
   "./pagesMember/address/address.js";
   "./pagesMember/address-form/address-form.js";
+  "./pagesOrder/create/create.js";
+  "./pagesOrder/detail/detail.js";
+  "./pagesOrder/payment/payment.js";
 }
 const _sfc_main = {
   __name: "App",

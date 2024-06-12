@@ -1,6 +1,7 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const services_address = require("../../services/address.js");
+const stores_modules_address = require("../../stores/modules/address.js");
 require("../../utils/http.js");
 require("../../stores/index.js");
 require("../../stores/modules/member.js");
@@ -38,6 +39,11 @@ const _sfc_main = {
         }
       });
     };
+    const addressStore = stores_modules_address.useAddressStore();
+    const onChangeAddress = (item) => {
+      addressStore.changeSelectedAddress(item);
+      common_vendor.index.navigateBack();
+    };
     common_vendor.onShow(() => getAddress());
     return (_ctx, _cache) => {
       return {
@@ -50,9 +56,12 @@ const _sfc_main = {
             d: common_vendor.t(item.fullLocation),
             e: common_vendor.t(item.address),
             f: `/pagesMember/address-form/address-form?id=${item.id}`,
-            g: common_vendor.o(($event) => onDeleteAddress(item.id), item.id),
-            h: item.id,
-            i: "f87b9e08-1-" + i0 + ",f87b9e08-0"
+            g: common_vendor.o(() => {
+            }, item.id),
+            h: common_vendor.o(($event) => onChangeAddress(item), item.id),
+            i: common_vendor.o(($event) => onDeleteAddress(item.id), item.id),
+            j: item.id,
+            k: "f87b9e08-1-" + i0 + ",f87b9e08-0"
           });
         })
       };

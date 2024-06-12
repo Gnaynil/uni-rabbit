@@ -96,7 +96,6 @@ const SaveAddress = async () => {
 const getAddress = async () => {
   const res = await getMemberAddressByIdAPI(query.id)
   form.value = res.result
-  console.log(form.value)
 }
 onLoad(() => getAddress())
 </script>
