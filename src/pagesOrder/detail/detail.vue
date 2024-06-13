@@ -8,6 +8,9 @@ import {
   getPayMockAPI,
   getMemberOrderConsignmentByIdAPI,
   putMemberOrderReceiptByIdAPI,
+  getMemberOrderLogisticsByIdAPI,
+  deleteMemberOrderAPI,
+  getMemberOrderCancelByIdAPI,
 } from '@/services/order.js'
 
 // 获取屏幕边界到安全区域距离
@@ -81,9 +84,17 @@ const orderStateList = [
   { id: 6, text: '已取消' },
 ]
 const order = ref()
+//获取订单详情
 const getMemberOrderByIdData = async () => {
   const res = await getMemberOrderByIdAPI(query.id)
   order.value = res.result
+  if (
+    [orderStateList[3].id, orderStateList[4].id, , orderStateList[5].id].includes(
+      order.value.orderState,
+    )
+  ) {
+    getMemberOrderLogisticsByIdData()
+  }
 }
 onLoad(() => getMemberOrderByIdData())
 
@@ -108,6 +119,7 @@ const onOrderPay = async () => {
   // 关闭当前页，再跳转支付结果页
   uni.redirectTo({ url: `/pagesOrder/payment/payment?id=${query.id}` })
 }
+
 //模拟发货
 const onOrderSend = async () => {
   if (isDev) {
@@ -118,18 +130,41 @@ const onOrderSend = async () => {
   }
 }
 //确认收货
-const onOrderConfirm = ()=>{
+const onOrderConfirm = () => {
   uni.showModal({
-    content:'为保障您的权益，请收到货并确认无误后，再确认收货',
-    success:async(success)=>{
-      console.log(success);
-      if(success.confirm){
+    content: '为保障您的权益，请收到货并确认无误后，再确认收货',
+    success: async (success) => {
+      console.log(success)
+      if (success.confirm) {
         const res = await putMemberOrderReceiptByIdAPI(query.id)
         //更新订单状态
         order.value = res.result
       }
-    }
+    },
   })
+}
+//获取物流信息
+const logisticsList = ref([])
+const getMemberOrderLogisticsByIdData = async () => {
+  const res = await getMemberOrderLogisticsByIdAPI(query.id)
+  logisticsList.value = res.result.list
+}
+//删除订单
+const onOrderDelete = () => {
+  uni.showModal({
+    content: '是否删除订单',
+    success: async (success) => {
+      if (success.confirm) {
+        await deleteMemberOrderAPI({ ids: [query.id] })
+        uni.redirectTo({ url: '/pagesOrder/list/list' })
+      }
+    },
+  })
+}
+//取消订单
+const cancelOrder = async () => {
+  const res = await getMemberOrderCancelByIdAPI(query.id, { cancelReason: reason.value })
+  uni.redirectTo({ url: '/pagesOrder/list/list' })
 }
 </script>
 
@@ -194,11 +229,11 @@ const onOrderConfirm = ()=>{
       <!-- 配送状态 -->
       <view class="shipment">
         <!-- 订单物流信息 -->
-        <view v-for="item in 1" :key="item" class="item">
+        <view v-for="item in logisticsList" :key="item.id" class="item">
           <view class="message">
-            您已在广州市天河区黑马程序员完成取件，感谢使用菜鸟驿站，期待再次为您服务。
+            {{ item.text }}
           </view>
-          <view class="date"> 2023-04-14 13:14:20 </view>
+          <view class="date"> {{ item.time }} </view>
         </view>
         <!-- 用户收货地址 -->
         <view class="locate">
@@ -214,13 +249,13 @@ const onOrderConfirm = ()=>{
             class="navigator"
             v-for="item in order.skus"
             :key="item.id"
-            :url="`/pages/goods/goods?id=${item.id}`"
+            :url="`/pages/goods/goods?id=${item.spuId}`"
             hover-class="none"
           >
             <image class="cover" :src="item.image"></image>
             <view class="meta">
               <view class="name ellipsis">{{ item.name }}</view>
-              <view class="type">{{ item.properties.propertyValueName }}</view>
+              <view class="type">{{ item.attrsText }}</view>
               <view class="price">
                 <view class="actual">
                   <text class="symbol">¥</text>
@@ -260,7 +295,7 @@ const onOrderConfirm = ()=>{
           <view class="item">
             订单编号: {{ query.id }} <text class="copy" @tap="onCopy(query.id)">复制</text>
           </view>
-          <view class="item">下单时间: 2023-04-14 13:14:20</view>
+          <view class="item">{{ order.createTime }}</view>
         </view>
       </view>
 
@@ -285,11 +320,23 @@ const onOrderConfirm = ()=>{
             再次购买
           </navigator>
           <!-- 待收货状态: 展示确认收货 -->
-          <view v-if="order.orderState == orderStateList[3].id" class="button primary" @tap="onOrderConfirm"> 确认收货 </view>
+          <view
+            v-if="order.orderState == orderStateList[3].id"
+            class="button primary"
+            @tap="onOrderConfirm"
+          >
+            确认收货
+          </view>
           <!-- 待评价状态: 展示去评价 -->
-          <view  v-if="order.orderState == orderStateList[4].id" class="button"> 去评价 </view>
+          <view v-if="order.orderState == orderStateList[4].id" class="button"> 去评价 </view>
           <!-- 待评价/已完成/已取消 状态: 展示删除订单 -->
-          <view class="button delete"  v-if="order.orderState == orderStateList[5].id"> 删除订单 </view>
+          <view
+            class="button delete"
+            v-if="order.orderState >= orderStateList[4].id"
+            @tap="onOrderDelete"
+          >
+            删除订单
+          </view>
         </template>
       </view>
     </template>
@@ -311,7 +358,7 @@ const onOrderConfirm = ()=>{
       </view>
       <view class="footer">
         <view class="button" @tap="popup?.close?.()">取消</view>
-        <view class="button primary">确认</view>
+        <view class="button primary" @tap="cancelOrder()">确认</view>
       </view>
     </view>
   </uni-popup>

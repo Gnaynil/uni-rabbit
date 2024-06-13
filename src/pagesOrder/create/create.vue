@@ -1,6 +1,11 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { getMemberOrderPreAPI, getMemberOrderPreNowAPI,postMemberOrderAPI } from '@/services/order.js'
+import {
+  getMemberOrderPreAPI,
+  getMemberOrderPreNowAPI,
+  postMemberOrderAPI,
+  getMemberOrderPreAgainAPI,
+} from '@/services/order.js'
 import { onLoad, onShow } from '@dcloudio/uni-app'
 import { useAddressStore } from '@/stores/modules/address.js'
 const orderList = ref([])
@@ -38,9 +43,15 @@ const query = defineProps({
     type: String,
     default: '',
   },
+  //再次购买Id
+  orderId: {
+    type: String,
+  },
 })
+console.log(query.orderId)
 //获取订单信息
 const getOrderList = async () => {
+  console.log(query.orderId)
   if (query.skuId && query.count) {
     //通过skuId addressId获取立即购买所需其他数据信息
     const res = await getMemberOrderPreNowAPI({
@@ -50,6 +61,11 @@ const getOrderList = async () => {
     })
     orderList.value = res.result
     // console.log(orderList.value)
+  }
+  //再次购买 通过id获取其他数据
+  else if (query.orderId) {
+    const res = await getMemberOrderPreAgainAPI(query.orderId)
+    orderList.value = res.result
   } else {
     //获取购物车里订单信息
     const res = await getMemberOrderPreAPI()
@@ -79,26 +95,29 @@ const selectedAddress = computed(() => {
 })
 
 //提交订单
-const onOrderSubmit = async()=>{
+const onOrderSubmit = async () => {
   //没有收货地址提醒
-  if(!selectedAddress.value.id){
+  if (!selectedAddress.value.id) {
     return uni.showToast({
-      icon:'none',title:'请选择收货地址'
+      icon: 'none',
+      title: '请选择收货地址',
     })
   }
   //发送请求
   const res = await postMemberOrderAPI({
-    addressId:selectedAddress.value.id,
-    buyerMessage:buyerMessage.value,
-    deliveryTimeType:activeDelivery.value.type,
-    goods:orderList.value.goods.map((v)=>{return {count:v.count,skuId:v.skuId}}),
+    addressId: selectedAddress.value.id,
+    buyerMessage: buyerMessage.value,
+    deliveryTimeType: activeDelivery.value.type,
+    goods: orderList.value.goods.map((v) => {
+      return { count: v.count, skuId: v.skuId }
+    }),
     payChannel: 2,
     payType: 1,
   })
-   // 关闭当前页面，跳转到订单详情，传递订单id
-   uni.redirectTo({
-     url:`/pagesOrder/detail/detail?id=${res.result.id}`
-   })
+  // 关闭当前页面，跳转到订单详情，传递订单id
+  uni.redirectTo({
+    url: `/pagesOrder/detail/detail?id=${res.result.id}`,
+  })
 }
 </script>
 
@@ -186,7 +205,9 @@ const onOrderSubmit = async()=>{
     <view class="total-pay symbol">
       <text class="number">{{ orderList.summary?.totalPayPrice.toFixed(2) }}</text>
     </view>
-    <view class="button" :class="{ disabled: selecteAddress?.id }" @tap="onOrderSubmit"> 提交订单 </view>
+    <view class="button" :class="{ disabled: selecteAddress?.id }" @tap="onOrderSubmit">
+      提交订单
+    </view>
   </view>
   <!-- 底部占位空盒子 -->
   <view class="toolbar-height"></view>

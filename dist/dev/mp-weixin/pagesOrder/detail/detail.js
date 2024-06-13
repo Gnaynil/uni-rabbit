@@ -87,6 +87,11 @@ const _sfc_main = {
     const getMemberOrderByIdData = async () => {
       const res = await services_order.getMemberOrderByIdAPI(query.id);
       order.value = res.result;
+      if ([orderStateList[3].id, orderStateList[4].id, , orderStateList[5].id].includes(
+        order.value.orderState
+      )) {
+        getMemberOrderLogisticsByIdData();
+      }
     };
     common_vendor.onLoad(() => getMemberOrderByIdData());
     const onTimeUp = () => {
@@ -118,6 +123,26 @@ const _sfc_main = {
         }
       });
     };
+    const logisticsList = common_vendor.ref([]);
+    const getMemberOrderLogisticsByIdData = async () => {
+      const res = await services_order.getMemberOrderLogisticsByIdAPI(query.id);
+      logisticsList.value = res.result.list;
+    };
+    const onOrderDelete = () => {
+      common_vendor.index.showModal({
+        content: "是否删除订单",
+        success: async (success) => {
+          if (success.confirm) {
+            await services_order.deleteMemberOrderAPI({ ids: [query.id] });
+            common_vendor.index.redirectTo({ url: "/pagesOrder/list/list" });
+          }
+        }
+      });
+    };
+    const cancelOrder = async () => {
+      await services_order.getMemberOrderCancelByIdAPI(query.id, { cancelReason: reason.value });
+      common_vendor.index.redirectTo({ url: "/pagesOrder/list/list" });
+    };
     return (_ctx, _cache) => {
       var _a, _b, _c, _d, _e, _f, _g;
       return common_vendor.e({
@@ -146,9 +171,11 @@ const _sfc_main = {
         l: common_vendor.o(onOrderSend)
       } : {}), {
         m: ((_e = common_vendor.unref(safeAreaInsets)) == null ? void 0 : _e.top) + 20 + "px",
-        n: common_vendor.f(1, (item, k0, i0) => {
+        n: common_vendor.f(logisticsList.value, (item, k0, i0) => {
           return {
-            a: item
+            a: common_vendor.t(item.text),
+            b: common_vendor.t(item.time),
+            c: item.id
           };
         }),
         o: common_vendor.t(order.value.receiverContact),
@@ -158,11 +185,11 @@ const _sfc_main = {
           return {
             a: item.image,
             b: common_vendor.t(item.name),
-            c: common_vendor.t(item.properties.propertyValueName),
+            c: common_vendor.t(item.attrsText),
             d: common_vendor.t(item.curPrice.toFixed(2)),
             e: common_vendor.t(item.quantity),
             f: item.id,
-            g: `/pages/goods/goods?id=${item.id}`
+            g: `/pages/goods/goods?id=${item.spuId}`
           };
         }),
         s: order.value.orderState == orderStateList[4].id
@@ -172,31 +199,34 @@ const _sfc_main = {
         w: common_vendor.t(order.value.payMoney.toFixed(2)),
         x: common_vendor.t(query.id),
         y: common_vendor.o(($event) => onCopy(query.id)),
-        z: common_vendor.sr(guessRef, "34188534-1", {
+        z: common_vendor.t(order.value.createTime),
+        A: common_vendor.sr(guessRef, "34188534-1", {
           "k": "guessRef"
         }),
-        A: ((_f = common_vendor.unref(safeAreaInsets)) == null ? void 0 : _f.bottom) + "px",
-        B: order.value.orderState == orderStateList[1].id
+        B: ((_f = common_vendor.unref(safeAreaInsets)) == null ? void 0 : _f.bottom) + "px",
+        C: order.value.orderState == orderStateList[1].id
       }, order.value.orderState == orderStateList[1].id ? {
-        C: common_vendor.o(onOrderPay),
-        D: common_vendor.o(($event) => {
+        D: common_vendor.o(onOrderPay),
+        E: common_vendor.o(($event) => {
           var _a2, _b2;
           return (_b2 = (_a2 = popup.value) == null ? void 0 : _a2.open) == null ? void 0 : _b2.call(_a2);
         })
       } : common_vendor.e({
-        E: `/pagesOrder/create/create?orderId=${query.id}`,
-        F: order.value.orderState == orderStateList[3].id
+        F: `/pagesOrder/create/create?orderId=${query.id}`,
+        G: order.value.orderState == orderStateList[3].id
       }, order.value.orderState == orderStateList[3].id ? {
-        G: common_vendor.o(onOrderConfirm)
+        H: common_vendor.o(onOrderConfirm)
       } : {}, {
-        H: order.value.orderState == orderStateList[4].id
+        I: order.value.orderState == orderStateList[4].id
       }, order.value.orderState == orderStateList[4].id ? {} : {}, {
-        I: order.value.orderState == orderStateList[5].id
-      }, order.value.orderState == orderStateList[5].id ? {} : {}), {
-        J: ((_g = common_vendor.unref(safeAreaInsets)) == null ? void 0 : _g.bottom) + "px"
+        J: order.value.orderState >= orderStateList[4].id
+      }, order.value.orderState >= orderStateList[4].id ? {
+        K: common_vendor.o(onOrderDelete)
+      } : {}), {
+        L: ((_g = common_vendor.unref(safeAreaInsets)) == null ? void 0 : _g.bottom) + "px"
       }) : {}, {
-        K: common_vendor.o((...args) => common_vendor.unref(onScrolltolower) && common_vendor.unref(onScrolltolower)(...args)),
-        L: common_vendor.f(reasonList.value, (item, k0, i0) => {
+        M: common_vendor.o((...args) => common_vendor.unref(onScrolltolower) && common_vendor.unref(onScrolltolower)(...args)),
+        N: common_vendor.f(reasonList.value, (item, k0, i0) => {
           return {
             a: common_vendor.t(item),
             b: item === reason.value ? 1 : "",
@@ -204,14 +234,15 @@ const _sfc_main = {
             d: common_vendor.o(($event) => reason.value = item, item)
           };
         }),
-        M: common_vendor.o(($event) => {
+        O: common_vendor.o(($event) => {
           var _a2, _b2;
           return (_b2 = (_a2 = popup.value) == null ? void 0 : _a2.close) == null ? void 0 : _b2.call(_a2);
         }),
-        N: common_vendor.sr(popup, "34188534-3", {
+        P: common_vendor.o(($event) => cancelOrder()),
+        Q: common_vendor.sr(popup, "34188534-3", {
           "k": "popup"
         }),
-        O: common_vendor.p({
+        R: common_vendor.p({
           type: "bottom",
           ["background-color"]: "#fff"
         })

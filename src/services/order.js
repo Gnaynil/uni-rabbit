@@ -14,6 +14,13 @@ export const getMemberOrderPreNowAPI = (data) => {
     data
   })
 }
+//获取再次购买信息
+export const getMemberOrderPreAgainAPI = (id) => {
+  return httpInstance({
+    method: 'GET',
+    url: `/member/order/repurchase/${id}`
+  })
+}
 //提交订单
 export const postMemberOrderAPI = (data) => {
   return httpInstance({
@@ -55,9 +62,41 @@ export const getMemberOrderConsignmentByIdAPI = (id) => {
   })
 }
 //确认收货
-export const putMemberOrderReceiptByIdAPI =(id)=>{
+export const putMemberOrderReceiptByIdAPI = (id) => {
   return httpInstance({
-    method:'PUT',
-    url:`/member/order/${id}/receipt`
+    method: 'PUT',
+    url: `/member/order/${id}/receipt`
+  })
+}
+//订单物流
+
+export const getMemberOrderLogisticsByIdAPI = (id) => {
+  return httpInstance({
+    method: 'GET',
+    url: `/member/order/${id}/logistics`
+  })
+}
+//删除订单
+export const deleteMemberOrderAPI = (data = { ids }) => {
+  return httpInstance({
+    method: 'DELETE',
+    url: '/member/order',
+    data
+  })
+}
+//取消订单
+export const getMemberOrderCancelByIdAPI = (id, data = { cancelReason }) => {
+  return httpInstance({
+    method: 'PUT',
+    url: `/member/order/${id}/cancel`,
+    data
+  })
+}
+//获取订单列表
+export const getMemberOrderAPI = (data) => {
+  return httpInstance({
+    method: 'GET',
+    url: '/member/order',
+    data
   })
 }

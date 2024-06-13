@@ -149,6 +149,13 @@
             "navigationBarTitleText": "支付成功"
             // "navigationStyle": "custom"
           }
+        },
+        {
+          "path": "list/list",
+          "style": {
+            "navigationBarTitleText": "订单列表"
+            // "navigationStyle": "custom"
+          }
         }
       ]
     }
@@ -157,7 +164,7 @@
   "preloadRule": {
     "pages/my/my": {
       "network": "all",
-      "packages": ["pagesMember"]
+      "packages": ["pagesMember", "pagesOrder"]
     }
   }
 }

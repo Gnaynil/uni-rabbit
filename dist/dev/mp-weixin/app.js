@@ -19,6 +19,7 @@ if (!Math) {
   "./pagesOrder/create/create.js";
   "./pagesOrder/detail/detail.js";
   "./pagesOrder/payment/payment.js";
+  "./pagesOrder/list/list.js";
 }
 const _sfc_main = {
   __name: "App",

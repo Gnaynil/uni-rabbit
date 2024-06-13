@@ -19,6 +19,10 @@ const _sfc_main = {
     addressId: {
       type: String,
       default: ""
+    },
+    //再次购买Id
+    orderId: {
+      type: String
     }
   },
   setup(__props) {
@@ -36,13 +40,18 @@ const _sfc_main = {
     const onChangeDelivery = (ev) => {
       activeIndex.value = ev.detail.value;
     };
+    console.log(query.orderId);
     const getOrderList = async () => {
+      console.log(query.orderId);
       if (query.skuId && query.count) {
         const res = await services_order.getMemberOrderPreNowAPI({
           count: query.count,
           skuId: query.skuId,
           addressId: query.addressId
         });
+        orderList.value = res.result;
+      } else if (query.orderId) {
+        const res = await services_order.getMemberOrderPreAgainAPI(query.orderId);
         orderList.value = res.result;
       } else {
         const res = await services_order.getMemberOrderPreAPI();

@@ -24,7 +24,8 @@
       "pages": [
         "create/create",
         "detail/detail",
-        "payment/payment"
+        "payment/payment",
+        "list/list"
       ]
     }
   ],
@@ -70,7 +71,8 @@
     "pages/my/my": {
       "network": "all",
       "packages": [
-        "pagesMember"
+        "pagesMember",
+        "pagesOrder"
       ]
     }
   },
