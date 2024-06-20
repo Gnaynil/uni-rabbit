@@ -1,7 +1,7 @@
 {
-  "navigationStyle": "custom",
   "navigationBarTextStyle": "white",
   "navigationBarTitleText": "首页",
+  "navigationStyle": "custom",
   "usingComponents": {
     "xtx-swiper": "../../components/XtxSwiper",
     "xtx-guess": "../../components/XtxGuess",

@@ -1,0 +1,1 @@
+"use strict";const e=require("../common/vendor.js"),a={__name:"XtxSwiper",props:{data:{type:Array,default:()=>[]}},setup(a){const r=e.ref(0),t=e=>{var a;r.value=null==(a=e.detail)?void 0:a.current};return(n,o)=>({a:e.f(a.data,((e,a,r)=>({a:e.imgUrl,b:e.id}))),b:e.o(t),c:e.f(a.data,((e,a,t)=>({a:e.id,b:a===r.value?1:""})))})}};wx.createComponent(a);

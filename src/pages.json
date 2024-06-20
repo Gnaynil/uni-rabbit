@@ -9,23 +9,19 @@
       "^Xtx(.*)": "@/components/Xtx$1.vue"
     }
   },
-  "pages": [
-    //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-    {
+  "pages": [{
       "path": "pages/index/index",
       "style": {
-        //隐藏默认导航条(贴边)
-        "navigationStyle": "custom",
-        //自定义颜色
         "navigationBarTextStyle": "white",
-        "navigationBarTitleText": "首页"
+        "navigationBarTitleText": "首页",
+        "navigationStyle": "custom"
       }
     },
     {
       "path": "pages/my/my",
       "style": {
-        "navigationStyle": "default",
-        "navigationBarTitleText": "我的"
+        "navigationBarTitleText": "我的",
+        "navigationStyle": "default"
       }
     },
     {
@@ -147,19 +143,19 @@
           "path": "payment/payment",
           "style": {
             "navigationBarTitleText": "支付成功"
-            // "navigationStyle": "custom"
           }
         },
+        // "navigationStyle": "custom"
         {
           "path": "list/list",
           "style": {
             "navigationBarTitleText": "订单列表"
-            // "navigationStyle": "custom"
           }
         }
       ]
     }
   ],
+  // "navigationStyle": "custom"
   //声明分包预下载的规则
   "preloadRule": {
     "pages/my/my": {

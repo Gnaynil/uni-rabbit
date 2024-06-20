@@ -1,0 +1,1 @@
+"use strict";const s=require("../../../common/vendor.js"),e=require("../../../common/assets.js"),r={__name:"CustomNavBar",setup(r){s.useCssVars((e=>{var r;return{"11b99b47":(null==(r=s.unref(n))?void 0:r.top)+"px"}}));const{safeAreaInsets:n}=s.index.getSystemInfoSync();return(r,n)=>({a:e._imports_0,b:s.s(r.__cssVars())})}};wx.createComponent(r);

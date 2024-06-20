@@ -2,7 +2,7 @@
 const common_vendor = require("../../../common/vendor.js");
 const _sfc_main = {
   __name: "AddressPanel",
-  props: ["address"],
+  props: { address: String },
   emits: ["close", "index"],
   setup(__props, { emit }) {
     const props = __props;

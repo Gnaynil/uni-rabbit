@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { getMemberAddressAPI, deleteMemberAddressByIdAPI } from '@/services/address.js'
-import {useAddressStore} from '@/stores/modules/address.js'
+import { useAddressStore } from '@/stores/modules/address.js'
 import { onShow } from '@dcloudio/uni-app'
 const address = ref([])
 const getAddress = async () => {
@@ -19,16 +19,18 @@ const onDeleteAddress = (id) => {
         await deleteMemberAddressByIdAPI(id)
         //重新获取地址
         uni.showToast({
-          title:'删除成功'
+          title: '删除成功',
         })
-        setTimeout(()=>{getAddress()},500)
+        setTimeout(() => {
+          getAddress()
+        }, 500)
       }
     },
   })
 }
 //修改收货地址
 const addressStore = useAddressStore()
-const onChangeAddress = (item)=>{
+const onChangeAddress = (item) => {
   //修改地址 返回上一页
   addressStore.changeSelectedAddress(item)
   uni.navigateBack()
@@ -40,7 +42,7 @@ onShow(() => getAddress())
   <view class="viewport">
     <!-- 地址列表 -->
     <scroll-view class="scroll-view" scroll-y>
-      <view v-if="true" class="address">
+      <view v-if="address" class="address">
         <uni-swipe-action class="address-list">
           <!-- 收货地址项 -->
           <uni-swipe-action-item class="item" v-for="item in address" :key="item.id">
@@ -55,7 +57,8 @@ onShow(() => getAddress())
                 class="edit"
                 hover-class="none"
                 :url="`/pagesMember/address-form/address-form?id=${item.id}`"
-                @tap.stop="()=>{}"
+                @tap.stop="() => {}"
+                @tap.prevent="() => {}"
               >
                 修改
               </navigator>

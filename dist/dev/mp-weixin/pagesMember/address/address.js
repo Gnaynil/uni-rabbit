@@ -46,8 +46,10 @@ const _sfc_main = {
     };
     common_vendor.onShow(() => getAddress());
     return (_ctx, _cache) => {
-      return {
-        a: common_vendor.f(address.value, (item, k0, i0) => {
+      return common_vendor.e({
+        a: address.value
+      }, address.value ? {
+        b: common_vendor.f(address.value, (item, k0, i0) => {
           return common_vendor.e({
             a: common_vendor.t(item.receiver),
             b: common_vendor.t(item.contact),
@@ -58,13 +60,15 @@ const _sfc_main = {
             f: `/pagesMember/address-form/address-form?id=${item.id}`,
             g: common_vendor.o(() => {
             }, item.id),
-            h: common_vendor.o(($event) => onChangeAddress(item), item.id),
-            i: common_vendor.o(($event) => onDeleteAddress(item.id), item.id),
-            j: item.id,
-            k: "f87b9e08-1-" + i0 + ",f87b9e08-0"
+            h: common_vendor.o(() => {
+            }, item.id),
+            i: common_vendor.o(($event) => onChangeAddress(item), item.id),
+            j: common_vendor.o(($event) => onDeleteAddress(item.id), item.id),
+            k: item.id,
+            l: "f87b9e08-1-" + i0 + ",f87b9e08-0"
           });
         })
-      };
+      } : {});
     };
   }
 };

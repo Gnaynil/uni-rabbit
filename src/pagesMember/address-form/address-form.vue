@@ -47,12 +47,25 @@ const rules = {
 }
 //表单组件实例
 const formRef = ref()
+// #ifdef MP-WEIXIN
 const onFullLocationChange = (e) => {
   form.value.provinceCode = e.detail.code[0]
   form.value.cityCode = e.detail.code[1]
   form.value.countyCode = e.detail.code[2]
   form.value.fullLocation = e.detail.value.join(' ')
 }
+// #endif
+
+// #ifdef H5
+const onCitychange = (e) => {
+  const code = e.detail.value.map((v) => v.value)
+  const [provinceCode, cityCode, countyCode] = code
+  Object.assign(form.value, { provinceCode, cityCode, countyCode })
+  form.value.fullLocation = e.detail.value.map((v) => v.text).join(' ')
+  console.log(form.value)
+}
+// #endif
+
 const onSwitchChange = (e) => {
   if (e.detail.value) {
     form.value.isDefault = 1
@@ -114,6 +127,7 @@ onLoad(() => getAddress())
       </uni-forms-item>
       <uni-forms-item name="fullLocation" class="form-item">
         <text class="label">所在地区</text>
+        <!-- #ifdef MP-WEIXIN -->
         <picker
           class="picker"
           mode="region"
@@ -123,6 +137,23 @@ onLoad(() => getAddress())
           <view v-if="form.fullLocation">{{ form.fullLocation }}</view>
           <view v-else class="placeholder">请选择省/市/区(县)</view>
         </picker>
+        <!-- #endif-->
+        <!-- #ifdef H5 -->
+        <uni-data-picker
+          placeholder="请选择地址"
+          popup-title="请选择城市"
+          collection="opendb-city-china"
+          field="code as value, name as text"
+          orderby="value asc"
+          :step-searh="true"
+          self-field="code"
+          parent-field="parent_code"
+          :clear-icon="false"
+          @change="onCitychange"
+          v-model="form.countyCode"
+        >
+        </uni-data-picker>
+        <!-- #endif -->
       </uni-forms-item>
       <uni-forms-item class="form-item" name="address">
         <text class="label">详细地址</text>
@@ -144,6 +175,13 @@ onLoad(() => getAddress())
 </template>
 
 <style lang="scss">
+/* #ifdef H5 */
+:deep(.selected-area) {
+  height: auto;
+  flex: 0 1 auto;
+}
+/* #endif */
+
 page {
   background-color: #f4f4f4;
 }

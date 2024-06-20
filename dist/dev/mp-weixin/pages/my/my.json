@@ -1,6 +1,6 @@
 {
-  "navigationStyle": "default",
   "navigationBarTitleText": "我的",
+  "navigationStyle": "default",
   "usingComponents": {
     "xtx-guess": "../../components/XtxGuess"
   }

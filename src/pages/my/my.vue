@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useMemberStore } from '@/stores/modules/member.js'
-import { useGuessList  } from '@/composables/index.js'
+import { useGuessList } from '@/composables/index.js'
 //获取用户数据
 const memberStore = useMemberStore()
 // 获取屏幕边界到安全区域距离
@@ -14,7 +14,7 @@ const orderTypes = [
   { type: 4, text: '待评价', icon: 'icon-comment' },
 ]
 //滚动触底触发
-const {guessRef,onScrolltolower} = useGuessList()
+const { guessRef, onScrolltolower } = useGuessList()
 </script>
 
 <template>
@@ -27,7 +27,9 @@ const {guessRef,onScrolltolower} = useGuessList()
           <image class="avatar" mode="aspectFill" :src="memberStore.profile.avatar"></image>
         </navigator>
         <view class="meta">
-          <view class="nickname"> {{ memberStore.profile.nickname || memberStore.profile.account }} </view>
+          <view class="nickname">
+            {{ memberStore.profile.nickname || memberStore.profile.account }}
+          </view>
           <navigator class="extra" url="/pagesMember/profile/profile" hover-class="none">
             <text class="update">更新头像昵称</text>
           </navigator>
@@ -78,12 +80,14 @@ const {guessRef,onScrolltolower} = useGuessList()
           {{ item.text }}
         </navigator>
         <!-- 客服 -->
+        <!-- #ifdef MP-WEIXIN -->
         <button class="contact icon-handset" open-type="contact">售后</button>
+        <!-- #endif -->
       </view>
     </view>
     <!-- 猜你喜欢 -->
     <view class="guess">
-      <XtxGuess ref="guessRef" class="guess"/>
+      <XtxGuess ref="guessRef" class="guess" />
     </view>
   </scroll-view>
 </template>

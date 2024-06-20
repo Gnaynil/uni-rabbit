@@ -2,21 +2,20 @@
 import { onShow } from '@dcloudio/uni-app'
 import { ref, watch } from 'vue'
 // 子调父
-const emit = defineEmits(['close','index'])
-const props = defineProps(['address'])
-
+const emit = defineEmits(['close', 'index'])
+const props = defineProps({ address: String })
 const onSelected = (index) => {
   props.address.forEach((v) => (v.selected = false))
   props.address[index].selected = true
   //点击退出
   emit('close')
   //传递点击对象下标
-  emit('index',index)
+  emit('index', index)
 }
 //我的收货地址
-const newAddress = ()=>{
+const newAddress = () => {
   uni.navigateTo({
-    url:"/pagesMember/address/address"
+    url: '/pagesMember/address/address',
   })
 }
 </script>
