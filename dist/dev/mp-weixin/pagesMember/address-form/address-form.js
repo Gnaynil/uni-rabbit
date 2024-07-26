@@ -62,7 +62,6 @@ const _sfc_main = {
         rules: [{ required: true, errorMessage: "请输入详细地址" }]
       }
     };
-    const formRef = common_vendor.ref();
     const onFullLocationChange = (e) => {
       form.value.provinceCode = e.detail.code[0];
       form.value.cityCode = e.detail.code[1];
@@ -76,6 +75,7 @@ const _sfc_main = {
         form.value.isDefault = 0;
       }
     };
+    const formRef = common_vendor.ref();
     const SaveAddress = async () => {
       try {
         await formRef.value.validate();
@@ -107,7 +107,11 @@ const _sfc_main = {
       const res = await services_address.getMemberAddressByIdAPI(query.id);
       form.value = res.result;
     };
-    common_vendor.onLoad(() => getAddress());
+    common_vendor.onLoad(() => {
+      if (query.id) {
+        getAddress();
+      }
+    });
     return (_ctx, _cache) => {
       var _a;
       return common_vendor.e({

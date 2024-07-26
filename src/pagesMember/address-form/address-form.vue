@@ -45,8 +45,7 @@ const rules = {
     rules: [{ required: true, errorMessage: '请输入详细地址' }],
   },
 }
-//表单组件实例
-const formRef = ref()
+
 // #ifdef MP-WEIXIN
 const onFullLocationChange = (e) => {
   form.value.provinceCode = e.detail.code[0]
@@ -74,6 +73,8 @@ const onSwitchChange = (e) => {
   }
   //保存地址
 }
+//表单组件实例
+const formRef = ref()
 const SaveAddress = async () => {
   try {
     await formRef.value.validate()
@@ -110,7 +111,11 @@ const getAddress = async () => {
   const res = await getMemberAddressByIdAPI(query.id)
   form.value = res.result
 }
-onLoad(() => getAddress())
+onLoad(() => {
+  if (query.id) {
+    getAddress()
+  }
+})
 </script>
 
 <template>

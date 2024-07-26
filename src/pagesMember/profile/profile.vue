@@ -12,6 +12,18 @@ const profile = ref({})
 const getUserData = async () => {
   const res = await getMemberProfileAPI()
   profile.value = res.result
+  // #ifdef H5
+  //返回数据没有countyCode 所以需要要在云函数通过fullLocation来获取code字段
+  console.log(profile.value.fullLocation.split(' ')[2])
+  const db = uniCloud.database()
+  //筛查符合的字段
+  db.collection('opendb-city-china')
+    .where({ name: profile.value.fullLocation.split(' ')[2] })
+    .get()
+    .then((res) => {
+      profile.value.countyCode = res.result.data[0].code
+    })
+  // #endif
 }
 onLoad(() => {
   getUserData()
@@ -19,6 +31,7 @@ onLoad(() => {
 
 //修改用户头像
 const onAvatarChange = () => {
+  // #ifdef MP-WEIXIN
   //调用用户的照片或者拍照
   uni.chooseMedia({
     //文件个数
@@ -47,37 +60,51 @@ const onAvatarChange = () => {
       })
     },
   })
+  // #endif
 }
 //修改性别
 const onGenderChange = (e) => {
   profile.value.gender = e.detail.value
 }
+//获取当前日期为YYYY-MM-DD格式
+const nowDate = new Date()
+const year = nowDate.getFullYear()
+const month = (nowDate.getMonth() + 1).toString().padStart(2, '0') //月份从0开始 补齐两位格式
+const day = nowDate.getDay().toString().padStart(2, '0') //补齐两位格式
+//返回正确格式
+const formatNowDate = `${year}-${month}-${day}`
+
 //修改生日
 const onBirthdayChange = (e) => {
+  console.log(profile.value)
   profile.value.birthday = e.detail.value
 }
-//修改地址
 let fullLocationCode = ['', '', '']
+// #ifdef MP-WEIXIN
+//修改地址
 const onFullLocationChange = (e) => {
   //修改前端界面
   profile.value.fullLocation = e.detail.value.join(' ')
   //提交后端更新
   fullLocationCode = e.detail.code
 }
+// #endif
+
+//修改地址
+// #ifdef H5
+const onCitychange = (e) => {
+  const code = e.detail.value.map((v) => v.value)
+  fullLocationCode = code
+}
+// #endif
+
 //点击保存提交表单
 const onSubmit = async () => {
   const { nickname, gender, birthday, profession } = profile.value
-  console.log(fullLocationCode)
   let res = {}
-  //判断是否更改城市 没更改不上传code
-  if (!fullLocationCode[0]) {
-    res = await putMemberProfileAPI({
-      nickname,
-      gender,
-      birthday,
-      profession,
-    })
-  } else {
+  console.log(fullLocationCode)
+  //判断是否更改城市 更改了上传code
+  if (fullLocationCode[0]) {
     res = await putMemberProfileAPI({
       nickname,
       gender,
@@ -86,6 +113,13 @@ const onSubmit = async () => {
       provinceCode: fullLocationCode[0],
       cityCode: fullLocationCode[1],
       countyCode: fullLocationCode[2],
+    })
+  } else {
+    res = await putMemberProfileAPI({
+      nickname,
+      gender,
+      birthday,
+      profession,
     })
   }
   memberStore.profile.nickname = res.result.nickname
@@ -108,7 +142,9 @@ const onSubmit = async () => {
     <view class="avatar">
       <view class="avatar-content" @tap="onAvatarChange">
         <image class="image" :src="profile.avatar" mode="aspectFill" />
+        <!-- #ifdef MP-WEIXIN -->
         <text class="text">点击修改头像</text>
+        <!-- #endif -->
       </view>
     </view>
     <!-- 表单 -->
@@ -142,7 +178,7 @@ const onSubmit = async () => {
             class="picker"
             mode="date"
             start="1900-01-01"
-            :end="new Date()"
+            :end="formatNowDate"
             :value="profile.birthday"
             @change="onBirthdayChange"
           >
@@ -150,6 +186,7 @@ const onSubmit = async () => {
             <view class="placeholder" v-else>请选择日期</view>
           </picker>
         </view>
+        <!-- #ifdef MP-WEIXIN -->
         <view class="form-item">
           <text class="label">城市</text>
           <picker
@@ -162,6 +199,28 @@ const onSubmit = async () => {
             <view class="placeholder" v-else>请选择城市</view>
           </picker>
         </view>
+        <!-- #endif -->
+        <!-- #ifdef H5 -->
+        <view class="form-item">
+          <text class="label">城市</text>
+          <!-- #ifdef H5 -->
+          <uni-data-picker
+            placeholder="请选择地址"
+            popup-title="请选择城市"
+            collection="opendb-city-china"
+            field="code as value, name as text"
+            orderby="value asc"
+            :step-searh="true"
+            self-field="code"
+            parent-field="parent_code"
+            :clear-icon="false"
+            @change="onCitychange"
+            v-model="profile.countyCode"
+          >
+          </uni-data-picker>
+          <!-- #endif -->
+        </view>
+        <!-- #endif -->
         <view class="form-item">
           <text class="label">职业</text>
           <input class="input" type="text" placeholder="请填写职业" v-model="profile.profession" />

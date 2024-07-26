@@ -13,7 +13,7 @@ if (!Array) {
 const _easycom_XtxSwiper = () => "../../components/XtxSwiper.js";
 const _easycom_XtxGuess = () => "../../components/XtxGuess.js";
 if (!Math) {
-  (CustomNavBar + PageSkeleton + _easycom_XtxSwiper + CategoryPanel + HotPanel + _easycom_XtxGuess)();
+  (CustomNavBar + _easycom_XtxSwiper + CategoryPanel + HotPanel + _easycom_XtxGuess + PageSkeleton)();
 }
 const CustomNavBar = () => "./components/CustomNavBar.js";
 const CategoryPanel = () => "./components/CategoryPanel.js";
@@ -59,8 +59,8 @@ const _sfc_main = {
     return (_ctx, _cache) => {
       return common_vendor.e({
         a: common_vendor.s(_ctx.__cssVars()),
-        b: isLoading.value
-      }, isLoading.value ? {} : {
+        b: !isLoading.value
+      }, !isLoading.value ? {
         c: common_vendor.p({
           data: bannerList.value
         }),
@@ -70,10 +70,10 @@ const _sfc_main = {
         e: common_vendor.p({
           hotList: hotList.value
         }),
-        f: common_vendor.sr(guessRef, "01f9263e-5", {
+        f: common_vendor.sr(guessRef, "01f9263e-4", {
           "k": "guessRef"
         })
-      }, {
+      } : {}, {
         g: common_vendor.o(onRefresherrefresh),
         h: isTriggered.value,
         i: common_vendor.o((...args) => common_vendor.unref(onScrolltolower) && common_vendor.unref(onScrolltolower)(...args)),

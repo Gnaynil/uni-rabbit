@@ -24,7 +24,7 @@ const bannerPicture = ref('')
 const subTypes = ref([])
 const activeIndex = ref(0)
 const getHotList = async () => {
-  const res = await getHotRecommendAPI(currUrlMap.url, { page: 34, pageSize: 10 })
+  const res = await getHotRecommendAPI(currUrlMap.url, { page: 1, pageSize: 10 })
   bannerPicture.value = res.result.bannerPicture
   subTypes.value = res.result.subTypes
 }

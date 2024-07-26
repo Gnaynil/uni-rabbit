@@ -1,10 +1,10 @@
 <script setup>
 import { onLoad } from '@dcloudio/uni-app'
 import { getHomeGoodsGuessLikeAPI } from '@/services/home.js'
-import { useGuessList  } from '@/composables/index.js'
+import { useGuessList } from '@/composables/index.js'
 import { onMounted, ref } from 'vue'
 //获取屏幕边界到安全区域的距离
-const Info= uni.getSystemInfoSync()
+const Info = uni.getSystemInfoSync()
 
 const guessLikeList = ref([])
 //页码数
@@ -26,46 +26,48 @@ const getHomeGoodsGuessLike = async () => {
   //数据追加
   guessLikeList.value = guessLikeList.value.concat(...res.result.items)
   // guessLikeList.value.push(...res.result.items)
-  if(pageParams.page < res.result.pages){
+  if (pageParams.page < res.result.pages) {
     pageParams.page++
-  }else{
-    finish.value=true
+  } else {
+    finish.value = true
   }
 }
-const resetData = () =>{
+const resetData = () => {
   pageParams.page = 1
   guessLikeList.value = []
   finish.value = false
 }
-onMounted(()=>getHomeGoodsGuessLike())
+onMounted(() => getHomeGoodsGuessLike())
 defineExpose({
   resetData,
   // 将getHomeGoodsGuessLike重命名getMore暴露出父组件
-  getMore:getHomeGoodsGuessLike
+  getMore: getHomeGoodsGuessLike,
 })
 </script>
 
 <template>
-  <!-- 猜你喜欢 -->
-  <view class="caption">
-    <text class="text">猜你喜欢</text>
+  <view>
+    <!-- 猜你喜欢 -->
+    <view class="caption">
+      <text class="text">猜你喜欢</text>
+    </view>
+    <view class="guess">
+      <navigator
+        class="guess-item"
+        v-for="item in guessLikeList"
+        :key="item.id"
+        :url="`/pages/goods/goods?id=${item.id}`"
+      >
+        <image class="image" mode="aspectFill" :src="item.picture"></image>
+        <view class="name">{{ item.name }}</view>
+        <view class="price">
+          <text class="small">¥</text>
+          <text>{{ item.price }}</text>
+        </view>
+      </navigator>
+    </view>
+    <view class="loading-text"> {{ finish ? '没有更多数据~' : '正在加载...' }}</view>
   </view>
-  <view class="guess">
-    <navigator
-      class="guess-item"
-      v-for="item in guessLikeList"
-      :key="item.id"
-      :url="`/pages/goods/goods?id=${item.id}`"
-    >
-      <image class="image" mode="aspectFill" :src="item.picture"></image>
-      <view class="name">{{ item.name }}</view>
-      <view class="price">
-        <text class="small">¥</text>
-        <text>{{ item.price }}</text>
-      </view>
-    </navigator>
-  </view>
-  <view class="loading-text"> {{ finish ? '没有更多数据~' : '正在加载...' }}</view>
 </template>
 
 <style lang="scss">
@@ -103,7 +105,12 @@ defineExpose({
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  // #ifdef MP-WEIXIN
   padding: 0 20rpx;
+  // #endif
+  // #ifdef H5 || APP-PLUS
+  padding:0 5px;
+  // #endif
   .guess-item {
     width: 345rpx;
     padding: 24rpx 20rpx 20rpx;
@@ -142,6 +149,10 @@ defineExpose({
   text-align: center;
   font-size: 28rpx;
   color: #666;
-
+  // #ifdef H5 || APP-PLUS
+  height: 45px;
+  position: relative;
+  left:35%;
+  // #endif
 }
 </style>

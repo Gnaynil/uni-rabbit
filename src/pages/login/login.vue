@@ -1,8 +1,8 @@
 <script setup>
 import { onLoad } from '@dcloudio/uni-app'
-import { postLoginWxMin, postLoginWxMinSimpleAPI } from '@/services/login.js'
+import { postLoginWxMin, postLoginWxMinSimpleAPI, PostLoginAPI } from '@/services/login.js'
 import { useMemberStore } from '@/stores/modules/member.js'
-
+import { ref } from 'vue'
 // 获取code登录凭证
 // #ifdef MP-WEIXIN
 let code = ''
@@ -26,9 +26,19 @@ const onGetPhoneNumber = async (ev) => {
 
 //模拟手机号码快捷登录(开发环境)
 const onGetPhoneNuberSimple = async () => {
-  const res = await postLoginWxMinSimpleAPI('15916252262')
+  const res = await postLoginWxMinSimpleAPI('13856258291')
   loginSuccess(res.result)
 }
+//传统登录
+const form = ref({
+  account: '12056258291',
+  password: 'hm#qd@23!',
+})
+const doLogin = async() => {
+  const res = await PostLoginAPI({account:form.value.account,password:form.value.password})
+  loginSuccess(res.result)
+}
+
 const loginSuccess = (profile) => {
   // 保存用户信息
   const memberStore = useMemberStore()
@@ -55,9 +65,9 @@ const loginSuccess = (profile) => {
     <view class="login">
       <!-- 网页端表单登录 -->
       <!-- #ifdef H5 -->
-      <input class="input" type="text" placeholder="请输入用户名/手机号码" />
-      <input class="input" type="text" password placeholder="请输入密码" />
-      <button class="button phone">登录</button>
+      <input class="input" type="text" v-model="form.account" placeholder="请输入用户名/手机号码" />
+      <input class="input" type="text" v-model="form.password" password placeholder="请输入密码" />
+      <button class="button phone" @tap="doLogin">登录</button>
       <!-- #endif -->
       <!-- 小程序端授权登录 -->
       <!-- 微信开发能力按钮，需要条件编译 -->

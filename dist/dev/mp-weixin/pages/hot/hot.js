@@ -29,7 +29,7 @@ const _sfc_main = {
     const subTypes = common_vendor.ref([]);
     const activeIndex = common_vendor.ref(0);
     const getHotList = async () => {
-      const res = await services_hot.getHotRecommendAPI(currUrlMap.url, { page: 34, pageSize: 10 });
+      const res = await services_hot.getHotRecommendAPI(currUrlMap.url, { page: 1, pageSize: 10 });
       bannerPicture.value = res.result.bannerPicture;
       subTypes.value = res.result.subTypes;
     };

@@ -24,9 +24,13 @@ const _sfc_main = {
       loginSuccess(res.result);
     };
     const onGetPhoneNuberSimple = async () => {
-      const res = await services_login.postLoginWxMinSimpleAPI("15916252262");
+      const res = await services_login.postLoginWxMinSimpleAPI("13856258291");
       loginSuccess(res.result);
     };
+    common_vendor.ref({
+      account: "12056258291",
+      password: "hm#qd@23!"
+    });
     const loginSuccess = (profile) => {
       const memberStore = stores_modules_member.useMemberStore();
       memberStore.setProfile(profile);

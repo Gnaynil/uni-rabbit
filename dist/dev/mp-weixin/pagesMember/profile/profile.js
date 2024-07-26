@@ -47,7 +47,13 @@ const _sfc_main = {
     const onGenderChange = (e) => {
       profile.value.gender = e.detail.value;
     };
+    const nowDate = /* @__PURE__ */ new Date();
+    const year = nowDate.getFullYear();
+    const month = (nowDate.getMonth() + 1).toString().padStart(2, "0");
+    const day = nowDate.getDay().toString().padStart(2, "0");
+    const formatNowDate = `${year}-${month}-${day}`;
     const onBirthdayChange = (e) => {
+      console.log(profile.value);
       profile.value.birthday = e.detail.value;
     };
     let fullLocationCode = ["", "", ""];
@@ -57,16 +63,9 @@ const _sfc_main = {
     };
     const onSubmit = async () => {
       const { nickname, gender, birthday, profession } = profile.value;
-      console.log(fullLocationCode);
       let res = {};
-      if (!fullLocationCode[0]) {
-        res = await services_profile.putMemberProfileAPI({
-          nickname,
-          gender,
-          birthday,
-          profession
-        });
-      } else {
+      console.log(fullLocationCode);
+      if (fullLocationCode[0]) {
         res = await services_profile.putMemberProfileAPI({
           nickname,
           gender,
@@ -75,6 +74,13 @@ const _sfc_main = {
           provinceCode: fullLocationCode[0],
           cityCode: fullLocationCode[1],
           countyCode: fullLocationCode[2]
+        });
+      } else {
+        res = await services_profile.putMemberProfileAPI({
+          nickname,
+          gender,
+          birthday,
+          profession
         });
       }
       memberStore.profile.nickname = res.result.nickname;
@@ -100,7 +106,7 @@ const _sfc_main = {
       }, profile.value.birthday ? {
         k: common_vendor.t(profile.value.birthday)
       } : {}, {
-        l: /* @__PURE__ */ new Date(),
+        l: formatNowDate,
         m: profile.value.birthday,
         n: common_vendor.o(onBirthdayChange),
         o: profile.value.fullLocation

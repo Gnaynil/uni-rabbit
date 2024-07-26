@@ -223,7 +223,9 @@ const onBuyNow = (e) => {
       </view>
     </view>
   </scroll-view>
+  <!-- #ifdef MP-WEIXIN -->
   <PageSkeleton v-else />
+  <!-- #endif -->
   <!-- 用户操作 -->
   <view class="toolbar" :style="{ paddingBottom: safeAreaInsets?.bottom + 'px' }">
     <view class="icons">

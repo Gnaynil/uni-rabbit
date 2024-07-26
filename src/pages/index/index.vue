@@ -4,10 +4,10 @@ import CustomNavBar from './components/CustomNavBar.vue'
 import CategoryPanel from './components/CategoryPanel.vue'
 import HotPanel from './components/HotPanel.vue'
 import { getHomeBannerAPI, getHomeCategoryAPI, getHomeHotItemAPI } from '@/services/home.js'
-import { useGuessList  } from '@/composables/index.js'
+import { useGuessList } from '@/composables/index.js'
 import { onLoad } from '@dcloudio/uni-app'
 import PageSkeleton from './components/PageSkeleton.vue'
-const Info= uni.getSystemInfoSync()
+const Info = uni.getSystemInfoSync()
 //获取轮播图数据
 const bannerList = ref([])
 const getBannerData = async () => {
@@ -36,7 +36,7 @@ onLoad(async () => {
   isLoading.value = false
 })
 //滚动触底触发
-const {guessRef,onScrolltolower} = useGuessList()
+const { guessRef, onScrolltolower } = useGuessList()
 // 当前下拉刷新状态
 const isTriggered = ref(false)
 // 自定义下拉刷新被触发
@@ -62,14 +62,19 @@ const onRefresherrefresh = async () => {
     enable-back-to-top
     class="scroll-view"
   >
-    <PageSkeleton v-if="isLoading" />
-    <template v-else>
-      <XtxSwiper :data="bannerList" />
-      <CategoryPanel :categoryList="categoryList" />
-      <HotPanel :hotList="hotList" />
-      <!-- 绑定组件ref -->
-      <XtxGuess ref="guessRef" class="guess"/>
-    </template>
+  <template v-if="!isLoading">
+    <XtxSwiper :data="bannerList" />
+    <CategoryPanel :categoryList="categoryList" />
+    <HotPanel :hotList="hotList" />
+    <!-- 绑定组件ref -->
+    <XtxGuess ref="guessRef" class="guess" />
+  </template>
+    <!-- #ifdef MP-WEIXIN -->
+    <PageSkeleton v-else />
+    <!-- #endif -->
+
+
+
   </scroll-view>
 </template>
 
