@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { useMemberStore } from '@/stores/modules/member.js'
+import { useMemberStore } from '@/stores/member.js'
 import { useGuessList } from '@/composables/index.js'
 //获取用户数据
 const memberStore = useMemberStore()

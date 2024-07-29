@@ -2,8 +2,7 @@
 const common_vendor = require("../common/vendor.js");
 const services_home = require("../services/home.js");
 require("../utils/http.js");
-require("../stores/index.js");
-require("../stores/modules/member.js");
+require("../stores/member.js");
 const _sfc_main = {
   __name: "XtxGuess",
   setup(__props, { expose }) {

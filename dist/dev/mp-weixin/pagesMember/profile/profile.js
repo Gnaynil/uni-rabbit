@@ -1,14 +1,13 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const services_profile = require("../../services/profile.js");
-const stores_modules_member = require("../../stores/modules/member.js");
+const stores_member = require("../../stores/member.js");
 require("../../utils/http.js");
-require("../../stores/index.js");
 const _sfc_main = {
   __name: "profile",
   setup(__props) {
     const { safeAreaInsets } = common_vendor.index.getSystemInfoSync();
-    const memberStore = stores_modules_member.useMemberStore();
+    const memberStore = stores_member.useMemberStore();
     const profile = common_vendor.ref({});
     const getUserData = async () => {
       const res = await services_profile.getMemberProfileAPI();

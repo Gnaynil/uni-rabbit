@@ -1,9 +1,8 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const services_login = require("../../services/login.js");
-const stores_modules_member = require("../../stores/modules/member.js");
+const stores_member = require("../../stores/member.js");
 require("../../utils/http.js");
-require("../../stores/index.js");
 const _sfc_main = {
   __name: "login",
   setup(__props) {
@@ -23,16 +22,16 @@ const _sfc_main = {
       });
       loginSuccess(res.result);
     };
-    const onGetPhoneNuberSimple = async () => {
-      const res = await services_login.postLoginWxMinSimpleAPI("13856258291");
-      loginSuccess(res.result);
-    };
-    common_vendor.ref({
+    const form = common_vendor.ref({
       account: "12056258291",
       password: "hm#qd@23!"
     });
+    const doLogin = async () => {
+      const res = await services_login.PostLoginAPI({ account: form.value.account, password: form.value.password });
+      loginSuccess(res.result);
+    };
     const loginSuccess = (profile) => {
-      const memberStore = stores_modules_member.useMemberStore();
+      const memberStore = stores_member.useMemberStore();
       memberStore.setProfile(profile);
       common_vendor.index.showToast({
         icon: "none",
@@ -47,7 +46,7 @@ const _sfc_main = {
     return (_ctx, _cache) => {
       return {
         a: common_vendor.o(onGetPhoneNumber),
-        b: common_vendor.o(onGetPhoneNuberSimple)
+        b: common_vendor.o(doLogin)
       };
     };
   }

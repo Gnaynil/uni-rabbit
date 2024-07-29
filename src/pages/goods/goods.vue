@@ -15,6 +15,13 @@ const props = defineProps({
     default: '',
   },
 })
+//是否显示SKU组件
+const isShowSku = ref(false)
+const localdata = ref({})
+//已选择的地址
+const selectedAddress = ref('')
+const selectedId = ref('')
+
 //获取商品数据
 const goodsList = ref([])
 const getGoodsList = async () => {
@@ -40,6 +47,18 @@ const getGoodsList = async () => {
       }
     }),
   }
+  sendAddress(goodsList.value.userAddresses.findIndex((e) => e.isDefault === 1))
+}
+//修改配送地址
+const sendAddress = (index) => {
+  //展示地址
+  selectedAddress.value =
+    goodsList.value.userAddresses[index].fullLocation +
+    ' ' +
+    goodsList.value.userAddresses[index].address
+  selectedId.value = goodsList.value.userAddresses[index].id
+  //修改选中情况
+  goodsList.value.userAddresses[index].selected = true
 }
 const isFinish = ref(false)
 onLoad(async () => {
@@ -66,20 +85,6 @@ const openPopup = (name) => {
   popupName.value = name
   popup.value.open()
 }
-//已选择的地址
-const selectedAddress = ref('')
-const selectedId = ref('')
-const sendAddress = (index) => {
-  selectedAddress.value =
-    goodsList.value.userAddresses[index].fullLocation +
-    ' ' +
-    goodsList.value.userAddresses[index].address
-  selectedId.value = goodsList.value.userAddresses[index].id
-}
-
-//是否显示SKU组件
-const isShowSku = ref(false)
-const localdata = ref({})
 
 const mode = ref(1)
 //1:Both,2:Cart,3:Buy
@@ -107,8 +112,6 @@ const onAddCart = async (e) => {
 }
 //立即购买事件
 const onBuyNow = (e) => {
-  console.log(selectedId.value)
-  console.log(e)
   uni.navigateTo({
     url: `/pagesOrder/create/create?skuId=${e._id}&count=${e.buy_num}&addressId=${selectedId.value}`,
   })

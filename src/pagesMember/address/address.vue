@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { getMemberAddressAPI, deleteMemberAddressByIdAPI } from '@/services/address.js'
-import { useAddressStore } from '@/stores/modules/address.js'
+import { useAddressStore } from '@/stores/address.js'
 import { onShow } from '@dcloudio/uni-app'
 const address = ref([])
 const getAddress = async () => {

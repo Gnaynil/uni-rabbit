@@ -1,5 +1,5 @@
 // src/utils/http.ts
-import { useMemberStore } from '@/stores'
+import { useMemberStore } from '@/stores/member.js'
 // 请求基地址
 const baseURL = 'https://pcapi-xiaotuxian-front-devtest.itheima.net'
 

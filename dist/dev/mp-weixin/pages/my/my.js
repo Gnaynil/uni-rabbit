@@ -1,6 +1,6 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
-const stores_modules_member = require("../../stores/modules/member.js");
+const stores_member = require("../../stores/member.js");
 const composables_index = require("../../composables/index.js");
 if (!Array) {
   const _easycom_XtxGuess2 = common_vendor.resolveComponent("XtxGuess");
@@ -13,7 +13,7 @@ if (!Math) {
 const _sfc_main = {
   __name: "my",
   setup(__props) {
-    const memberStore = stores_modules_member.useMemberStore();
+    const memberStore = stores_member.useMemberStore();
     const { safeAreaInsets } = common_vendor.index.getSystemInfoSync();
     const orderTypes = [
       { type: 1, text: "待付款", icon: "icon-currency" },

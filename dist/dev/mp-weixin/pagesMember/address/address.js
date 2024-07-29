@@ -1,10 +1,9 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const services_address = require("../../services/address.js");
-const stores_modules_address = require("../../stores/modules/address.js");
+const stores_address = require("../../stores/address.js");
 require("../../utils/http.js");
-require("../../stores/index.js");
-require("../../stores/modules/member.js");
+require("../../stores/member.js");
 if (!Array) {
   const _easycom_uni_swipe_action_item2 = common_vendor.resolveComponent("uni-swipe-action-item");
   const _easycom_uni_swipe_action2 = common_vendor.resolveComponent("uni-swipe-action");
@@ -39,7 +38,7 @@ const _sfc_main = {
         }
       });
     };
-    const addressStore = stores_modules_address.useAddressStore();
+    const addressStore = stores_address.useAddressStore();
     const onChangeAddress = (item) => {
       addressStore.changeSelectedAddress(item);
       common_vendor.index.navigateBack();

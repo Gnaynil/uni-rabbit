@@ -1,10 +1,10 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
-const stores_modules_member = require("../../stores/modules/member.js");
+const stores_member = require("../../stores/member.js");
 const _sfc_main = {
   __name: "settings",
   setup(__props) {
-    const memberStore = stores_modules_member.useMemberStore();
+    const memberStore = stores_member.useMemberStore();
     const logout = () => {
       common_vendor.index.showModal({
         content: "是否退出登录?",

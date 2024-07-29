@@ -1,6 +1,11 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { getMemberOrderAPI, getPayMockAPI, getPayWxPayMiniPayAPI } from '@/services/order.js'
+import {
+  getMemberOrderAPI,
+  getPayMockAPI,
+  getPayWxPayMiniPayAPI,
+  deleteMemberOrderAPI,
+} from '@/services/order.js'
 // 获取屏幕边界到安全区域距离
 const { safeAreaInsets } = uni.getSystemInfoSync()
 //订单状态类表
@@ -21,13 +26,29 @@ const queryParams = {
   pageSize: 5,
   orderState: props.orderState,
 }
+//加载完成标志
+const finish = ref(false)
 // 获取页面参数
 const orderList = ref([])
 const getOrderList = async () => {
   const res = await getMemberOrderAPI(queryParams)
-  orderList.value = res.result.items
-  console.log(orderList.value)
+  // orderList.value = res.result.items
+  //数据累加
+  if (!finish.value) {
+    orderList.value = orderList.value.concat(...res.result.items)
+  }
+  if (queryParams.page < res.result.pages) {
+    queryParams.page++
+  } else {
+    finish.value = true
+  }
 }
+const onScrolltolower = () => {
+  if (!finish.value) {
+    getOrderList()
+  }
+}
+
 onMounted(() => {
   getOrderList()
 })
@@ -53,9 +74,22 @@ const onOrderPay = async (id) => {
   const order = orderList.value.find((v) => v.id === id)
   order.orderState = orderStateList[2].id
 }
+//删除订单
+const onOrderDelete = (id) => {
+  uni.showModal({
+    content: '是否删除订单',
+    success: async (success) => {
+      if (success.confirm) {
+        await deleteMemberOrderAPI({ ids: [id] })
+        uni.redirectTo({ url: '/pagesOrder/list/list' })
+      }
+    },
+  })
+}
 </script>
+
 <template>
-  <scroll-view scroll-y class="orders">
+  <scroll-view scroll-y class="orders" enable-back-to-top @scrolltolower="onScrolltolower">
     <view class="card" v-for="item in orderList" :key="item.id" v-if="orderList">
       <!-- 订单信息 -->
       <view class="status">
@@ -63,7 +97,11 @@ const onOrderPay = async (id) => {
         <!-- 订单状态文字 -->
         <text>{{ orderStateList[item.orderState].text }}</text>
         <!-- 待评价/已完成/已取消 状态: 展示删除订单 -->
-        <text class="icon-delete" v-if="item.orderState >= orderStateList[4].id"></text>
+        <view
+          class="text icon-delete"
+          v-if="item.orderState >= orderStateList[4].id"
+          @tap="onOrderDelete(item.id)"
+        ></view>
       </view>
       <!-- 商品信息，点击商品跳转到订单详情，不是商品详情 -->
       <navigator
@@ -110,7 +148,7 @@ const onOrderPay = async (id) => {
     </view>
     <!-- 底部提示文字 -->
     <view class="loading-text" :style="{ paddingBottom: safeAreaInsets?.bottom + 'px' }">
-      {{ true ? '没有更多数据~' : '正在加载...' }}
+      {{ finish ? '没有更多数据~' : '正在加载...' }}
     </view>
   </scroll-view>
 </template>

@@ -1,13 +1,11 @@
 "use strict";
 const utils_http = require("../utils/http.js");
-const postLoginWxMinSimpleAPI = (phoneNumber) => {
+const PostLoginAPI = (data) => {
   return utils_http.httpInstance({
     method: "POST",
-    url: "/login/wxMin/simple",
-    data: {
-      phoneNumber
-    }
+    url: "/login",
+    data
   });
 };
-exports.postLoginWxMinSimpleAPI = postLoginWxMinSimpleAPI;
+exports.PostLoginAPI = PostLoginAPI;
 //# sourceMappingURL=login.js.map

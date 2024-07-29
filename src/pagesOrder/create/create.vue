@@ -7,7 +7,7 @@ import {
   getMemberOrderPreAgainAPI,
 } from '@/services/order.js'
 import { onLoad, onShow } from '@dcloudio/uni-app'
-import { useAddressStore } from '@/stores/modules/address.js'
+import { useAddressStore } from '@/stores/address.js'
 const orderList = ref([])
 
 // 获取屏幕边界到安全区域距离

@@ -1,8 +1,6 @@
 "use strict";
 Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
 const common_vendor = require("./common/vendor.js");
-const stores_index = require("./stores/index.js");
-require("./stores/modules/member.js");
 if (!Math) {
   "./pages/index/index.js";
   "./pages/my/my.js";
@@ -29,9 +27,11 @@ const _sfc_main = {
   }
 };
 const App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "D:/code/uni-rabbit/src/App.vue"]]);
+const pinia = common_vendor.createPinia();
+pinia.use(common_vendor.src_default);
 function createApp() {
   const app = common_vendor.createSSRApp(App);
-  app.use(stores_index.pinia);
+  app.use(pinia);
   return {
     app
   };

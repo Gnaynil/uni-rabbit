@@ -129,6 +129,7 @@ const onOrderSend = async () => {
     uni.showToast({ icon: 'success', title: '模拟发货完成' })
     // 主动更新订单状态
     order.value.orderState = orderStateList[2].id
+    uni.redirectTo({ url: '/pagesOrder/list/list' })
   }
 }
 //确认收货

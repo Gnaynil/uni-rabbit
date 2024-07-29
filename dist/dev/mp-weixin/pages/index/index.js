@@ -3,8 +3,7 @@ const common_vendor = require("../../common/vendor.js");
 const services_home = require("../../services/home.js");
 const composables_index = require("../../composables/index.js");
 require("../../utils/http.js");
-require("../../stores/index.js");
-require("../../stores/modules/member.js");
+require("../../stores/member.js");
 if (!Array) {
   const _easycom_XtxSwiper2 = common_vendor.resolveComponent("XtxSwiper");
   const _easycom_XtxGuess2 = common_vendor.resolveComponent("XtxGuess");

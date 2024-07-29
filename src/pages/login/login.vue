@@ -1,7 +1,7 @@
 <script setup>
 import { onLoad } from '@dcloudio/uni-app'
 import { postLoginWxMin, postLoginWxMinSimpleAPI, PostLoginAPI } from '@/services/login.js'
-import { useMemberStore } from '@/stores/modules/member.js'
+import { useMemberStore } from '@/stores/member.js'
 import { ref } from 'vue'
 // 获取code登录凭证
 // #ifdef MP-WEIXIN
@@ -34,8 +34,8 @@ const form = ref({
   account: '12056258291',
   password: 'hm#qd@23!',
 })
-const doLogin = async() => {
-  const res = await PostLoginAPI({account:form.value.account,password:form.value.password})
+const doLogin = async () => {
+  const res = await PostLoginAPI({ account: form.value.account, password: form.value.password })
   loginSuccess(res.result)
 }
 
@@ -63,8 +63,8 @@ const loginSuccess = (profile) => {
       ></image>
     </view>
     <view class="login">
-      <!-- 网页端表单登录 -->
       <!-- #ifdef H5 -->
+      <!-- 网页端表单登录 -->
       <input class="input" type="text" v-model="form.account" placeholder="请输入用户名/手机号码" />
       <input class="input" type="text" v-model="form.password" password placeholder="请输入密码" />
       <button class="button phone" @tap="doLogin">登录</button>
@@ -83,7 +83,7 @@ const loginSuccess = (profile) => {
         </view>
         <view class="options">
           <!-- 通用模拟登录 -->
-          <button @tap="onGetPhoneNuberSimple">
+          <button @tap="doLogin">
             <text class="icon icon-phone">模拟快捷登录</text>
           </button>
         </view>

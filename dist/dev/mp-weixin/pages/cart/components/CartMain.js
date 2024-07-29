@@ -1,9 +1,8 @@
 "use strict";
 const common_vendor = require("../../../common/vendor.js");
-require("../../../stores/index.js");
+const stores_member = require("../../../stores/member.js");
 const composables_index = require("../../../composables/index.js");
 const services_cart = require("../../../services/cart.js");
-const stores_modules_member = require("../../../stores/modules/member.js");
 require("../../../utils/http.js");
 if (!Array) {
   const _easycom_vk_data_input_number_box2 = common_vendor.resolveComponent("vk-data-input-number-box");
@@ -23,7 +22,7 @@ const _sfc_main = {
   __name: "CartMain",
   setup(__props) {
     const { guessRef, onScrolltolower } = composables_index.useGuessList();
-    const memberStore = stores_modules_member.useMemberStore();
+    const memberStore = stores_member.useMemberStore();
     const cartList = common_vendor.ref([]);
     const getCartList = async () => {
       const res = await services_cart.getMemberCartAPI();

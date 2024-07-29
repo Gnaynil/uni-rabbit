@@ -3,8 +3,7 @@ const common_vendor = require("../../common/vendor.js");
 const services_goods = require("../../services/goods.js");
 const services_cart = require("../../services/cart.js");
 require("../../utils/http.js");
-require("../../stores/index.js");
-require("../../stores/modules/member.js");
+require("../../stores/member.js");
 if (!Array) {
   const _easycom_vk_data_goods_sku_popup2 = common_vendor.resolveComponent("vk-data-goods-sku-popup");
   const _easycom_uni_popup2 = common_vendor.resolveComponent("uni-popup");
@@ -29,6 +28,10 @@ const _sfc_main = {
   setup(__props) {
     const props = __props;
     const { safeAreaInsets } = common_vendor.index.getSystemInfoSync();
+    const isShowSku = common_vendor.ref(false);
+    const localdata = common_vendor.ref({});
+    const selectedAddress = common_vendor.ref("");
+    const selectedId = common_vendor.ref("");
     const goodsList = common_vendor.ref([]);
     const getGoodsList = async () => {
       const res = await services_goods.getGoodsByIdAPI(props.id);
@@ -52,6 +55,12 @@ const _sfc_main = {
           };
         })
       };
+      sendAddress(goodsList.value.userAddresses.findIndex((e) => e.isDefault === 1));
+    };
+    const sendAddress = (index) => {
+      selectedAddress.value = goodsList.value.userAddresses[index].fullLocation + " " + goodsList.value.userAddresses[index].address;
+      selectedId.value = goodsList.value.userAddresses[index].id;
+      goodsList.value.userAddresses[index].selected = true;
     };
     const isFinish = common_vendor.ref(false);
     common_vendor.onLoad(async () => {
@@ -74,14 +83,6 @@ const _sfc_main = {
       popupName.value = name;
       popup.value.open();
     };
-    const selectedAddress = common_vendor.ref("");
-    const selectedId = common_vendor.ref("");
-    const sendAddress = (index) => {
-      selectedAddress.value = goodsList.value.userAddresses[index].fullLocation + " " + goodsList.value.userAddresses[index].address;
-      selectedId.value = goodsList.value.userAddresses[index].id;
-    };
-    const isShowSku = common_vendor.ref(false);
-    const localdata = common_vendor.ref({});
     const mode = common_vendor.ref(1);
     const openSkuPopup = (val) => {
       isShowSku.value = true;
@@ -102,8 +103,6 @@ const _sfc_main = {
       }, 500);
     };
     const onBuyNow = (e) => {
-      console.log(selectedId.value);
-      console.log(e);
       common_vendor.index.navigateTo({
         url: `/pagesOrder/create/create?skuId=${e._id}&count=${e.buy_num}&addressId=${selectedId.value}`
       });

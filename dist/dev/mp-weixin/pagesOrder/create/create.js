@@ -1,10 +1,9 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const services_order = require("../../services/order.js");
-const stores_modules_address = require("../../stores/modules/address.js");
+const stores_address = require("../../stores/address.js");
 require("../../utils/http.js");
-require("../../stores/index.js");
-require("../../stores/modules/member.js");
+require("../../stores/member.js");
 const _sfc_main = {
   __name: "create",
   props: {
@@ -62,7 +61,7 @@ const _sfc_main = {
     common_vendor.onLoad(() => {
       addressStore.selectedAddress = void 0;
     });
-    const addressStore = stores_modules_address.useAddressStore();
+    const addressStore = stores_address.useAddressStore();
     const selectedAddress = common_vendor.computed(() => {
       var _a, _b, _c, _d, _e, _f, _g;
       if (((_b = (_a = orderList.value) == null ? void 0 : _a.userAddresses) == null ? void 0 : _b.length) === 1) {

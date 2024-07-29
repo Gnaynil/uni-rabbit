@@ -1,7 +1,6 @@
 "use strict";
 const common_vendor = require("../common/vendor.js");
-require("../stores/index.js");
-const stores_modules_member = require("../stores/modules/member.js");
+const stores_member = require("../stores/member.js");
 const baseURL = "https://pcapi-xiaotuxian-front-devtest.itheima.net";
 const httpInterceptor = {
   // 拦截前触发
@@ -15,7 +14,7 @@ const httpInterceptor = {
       "source-client": "miniapp",
       ...options.header
     };
-    const memberStore = stores_modules_member.useMemberStore();
+    const memberStore = stores_member.useMemberStore();
     const token = (_a = memberStore.profile) == null ? void 0 : _a.token;
     if (token) {
       options.header.Authorization = token;
@@ -33,7 +32,7 @@ const httpInstance = (options) => {
         if (res.statusCode >= 200 && res.statusCode < 300) {
           resolve(res.data);
         } else if (res.statusCode === 401) {
-          const memberStore = stores_modules_member.useMemberStore();
+          const memberStore = stores_member.useMemberStore();
           memberStore.clearProfile();
           common_vendor.index.navigateTo({
             url: "/pages/login/login"

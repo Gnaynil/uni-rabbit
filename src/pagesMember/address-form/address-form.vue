@@ -111,15 +111,21 @@ const getAddress = async () => {
   const res = await getMemberAddressByIdAPI(query.id)
   form.value = res.result
 }
-onLoad(() => {
+//数据是否加载完毕
+const isFinish = ref(false)
+onLoad(async () => {
   if (query.id) {
-    getAddress()
+    await getAddress()
+    isFinish.value = true
+  }
+  else{
+    isFinish.value = true
   }
 })
 </script>
 
 <template>
-  <view class="content">
+  <view class="content" v-if="isFinish">
     <uni-forms :rules="rules" :model="form" ref="formRef">
       <!-- 表单内容 -->
       <uni-forms-item name="receiver" class="form-item">
@@ -174,9 +180,9 @@ onLoad(() => {
         />
       </view>
     </uni-forms>
+    <!-- 提交按钮 -->
   </view>
-  <!-- 提交按钮 -->
-  <button class="button" @tap="SaveAddress">保存并使用</button>
+  <button class="button" @tap="SaveAddress" v-if="isFinish">保存并使用</button>
 </template>
 
 <style lang="scss">

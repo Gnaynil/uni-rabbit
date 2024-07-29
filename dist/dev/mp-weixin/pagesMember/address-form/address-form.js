@@ -2,8 +2,7 @@
 const common_vendor = require("../../common/vendor.js");
 const services_address = require("../../services/address.js");
 require("../../utils/http.js");
-require("../../stores/index.js");
-require("../../stores/modules/member.js");
+require("../../stores/member.js");
 if (!Array) {
   const _easycom_uni_forms_item2 = common_vendor.resolveComponent("uni-forms-item");
   const _easycom_uni_forms2 = common_vendor.resolveComponent("uni-forms");
@@ -107,49 +106,58 @@ const _sfc_main = {
       const res = await services_address.getMemberAddressByIdAPI(query.id);
       form.value = res.result;
     };
-    common_vendor.onLoad(() => {
+    const isFinish = common_vendor.ref(false);
+    common_vendor.onLoad(async () => {
       if (query.id) {
-        getAddress();
+        await getAddress();
+        isFinish.value = true;
+      } else {
+        isFinish.value = true;
       }
     });
     return (_ctx, _cache) => {
       var _a;
       return common_vendor.e({
-        a: form.value.receiver,
-        b: common_vendor.o(($event) => form.value.receiver = $event.detail.value),
-        c: common_vendor.p({
+        a: isFinish.value
+      }, isFinish.value ? common_vendor.e({
+        b: form.value.receiver,
+        c: common_vendor.o(($event) => form.value.receiver = $event.detail.value),
+        d: common_vendor.p({
           name: "receiver"
         }),
-        d: form.value.contact,
-        e: common_vendor.o(($event) => form.value.contact = $event.detail.value),
-        f: common_vendor.p({
+        e: form.value.contact,
+        f: common_vendor.o(($event) => form.value.contact = $event.detail.value),
+        g: common_vendor.p({
           name: "contact"
         }),
-        g: form.value.fullLocation
+        h: form.value.fullLocation
       }, form.value.fullLocation ? {
-        h: common_vendor.t(form.value.fullLocation)
+        i: common_vendor.t(form.value.fullLocation)
       } : {}, {
-        i: (_a = form.value.fullLocation) == null ? void 0 : _a.split(" "),
-        j: common_vendor.o(onFullLocationChange),
-        k: common_vendor.p({
+        j: (_a = form.value.fullLocation) == null ? void 0 : _a.split(" "),
+        k: common_vendor.o(onFullLocationChange),
+        l: common_vendor.p({
           name: "fullLocation"
         }),
-        l: form.value.address,
-        m: common_vendor.o(($event) => form.value.address = $event.detail.value),
-        n: common_vendor.p({
+        m: form.value.address,
+        n: common_vendor.o(($event) => form.value.address = $event.detail.value),
+        o: common_vendor.p({
           name: "address"
         }),
-        o: common_vendor.o(onSwitchChange),
-        p: form.value.isDefault === 1,
-        q: common_vendor.sr(formRef, "d8b42f9c-0", {
+        p: common_vendor.o(onSwitchChange),
+        q: form.value.isDefault === 1,
+        r: common_vendor.sr(formRef, "d8b42f9c-0", {
           "k": "formRef"
         }),
-        r: common_vendor.p({
+        s: common_vendor.p({
           rules,
           model: form.value
-        }),
-        s: common_vendor.o(SaveAddress)
-      });
+        })
+      }) : {}, {
+        t: isFinish.value
+      }, isFinish.value ? {
+        v: common_vendor.o(SaveAddress)
+      } : {});
     };
   }
 };

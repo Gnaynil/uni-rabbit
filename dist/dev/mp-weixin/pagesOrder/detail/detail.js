@@ -3,8 +3,7 @@ const common_vendor = require("../../common/vendor.js");
 const composables_index = require("../../composables/index.js");
 const services_order = require("../../services/order.js");
 require("../../utils/http.js");
-require("../../stores/index.js");
-require("../../stores/modules/member.js");
+require("../../stores/member.js");
 if (!Array) {
   const _easycom_uni_countdown2 = common_vendor.resolveComponent("uni-countdown");
   const _easycom_XtxGuess2 = common_vendor.resolveComponent("XtxGuess");
@@ -109,6 +108,7 @@ const _sfc_main = {
         await services_order.getMemberOrderConsignmentByIdAPI(query.id);
         common_vendor.index.showToast({ icon: "success", title: "模拟发货完成" });
         order.value.orderState = orderStateList[2].id;
+        common_vendor.index.redirectTo({ url: "/pagesOrder/list/list" });
       }
     };
     const onOrderConfirm = () => {

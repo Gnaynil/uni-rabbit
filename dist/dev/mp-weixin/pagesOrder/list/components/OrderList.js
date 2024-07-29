@@ -2,8 +2,7 @@
 const common_vendor = require("../../../common/vendor.js");
 const services_order = require("../../../services/order.js");
 require("../../../utils/http.js");
-require("../../../stores/index.js");
-require("../../../stores/modules/member.js");
+require("../../../stores/member.js");
 const _sfc_main = {
   __name: "OrderList",
   props: { orderState: Number },
@@ -24,11 +23,23 @@ const _sfc_main = {
       pageSize: 5,
       orderState: props.orderState
     };
+    const finish = common_vendor.ref(false);
     const orderList = common_vendor.ref([]);
     const getOrderList = async () => {
       const res = await services_order.getMemberOrderAPI(queryParams);
-      orderList.value = res.result.items;
-      console.log(orderList.value);
+      if (!finish.value) {
+        orderList.value = orderList.value.concat(...res.result.items);
+      }
+      if (queryParams.page < res.result.pages) {
+        queryParams.page++;
+      } else {
+        finish.value = true;
+      }
+    };
+    const onScrolltolower = () => {
+      if (!finish.value) {
+        getOrderList();
+      }
     };
     common_vendor.onMounted(() => {
       getOrderList();
@@ -43,6 +54,17 @@ const _sfc_main = {
       const order = orderList.value.find((v) => v.id === id);
       order.orderState = orderStateList[2].id;
     };
+    const onOrderDelete = (id) => {
+      common_vendor.index.showModal({
+        content: "是否删除订单",
+        success: async (success) => {
+          if (success.confirm) {
+            await services_order.deleteMemberOrderAPI({ ids: [id] });
+            common_vendor.index.redirectTo({ url: "/pagesOrder/list/list" });
+          }
+        }
+      });
+    };
     return (_ctx, _cache) => {
       var _a;
       return common_vendor.e({
@@ -53,8 +75,10 @@ const _sfc_main = {
             a: common_vendor.t(item.createTime),
             b: common_vendor.t(orderStateList[item.orderState].text),
             c: item.orderState >= orderStateList[4].id
-          }, item.orderState >= orderStateList[4].id ? {} : {}, {
-            d: common_vendor.f(item.skus, (sku, k1, i1) => {
+          }, item.orderState >= orderStateList[4].id ? {
+            d: common_vendor.o(($event) => onOrderDelete(item.id), item.id)
+          } : {}, {
+            e: common_vendor.f(item.skus, (sku, k1, i1) => {
               return {
                 a: sku.image,
                 b: common_vendor.t(sku.name),
@@ -62,22 +86,23 @@ const _sfc_main = {
                 d: sku.id
               };
             }),
-            e: `/pagesOrder/detail/detail?id=${item.id}`,
-            f: common_vendor.t(item.totalNum),
-            g: common_vendor.t(item.payMoney.toFixed(2)),
-            h: item.orderState === orderStateList[1].id
+            f: `/pagesOrder/detail/detail?id=${item.id}`,
+            g: common_vendor.t(item.totalNum),
+            h: common_vendor.t(item.payMoney.toFixed(2)),
+            i: item.orderState === orderStateList[1].id
           }, item.orderState === orderStateList[1].id ? {
-            i: common_vendor.o(($event) => onOrderPay(item.id), item.id)
+            j: common_vendor.o(($event) => onOrderPay(item.id), item.id)
           } : common_vendor.e({
-            j: `/pagesOrder/create/create?orderId=${item.id}`,
-            k: item.orderState === orderStateList[3].id
+            k: `/pagesOrder/create/create?orderId=${item.id}`,
+            l: item.orderState === orderStateList[3].id
           }, item.orderState === orderStateList[3].id ? {} : {}), {
-            l: item.id
+            m: item.id
           });
         })
       } : {}, {
-        c: common_vendor.t("没有更多数据~"),
-        d: ((_a = common_vendor.unref(safeAreaInsets)) == null ? void 0 : _a.bottom) + "px"
+        c: common_vendor.t(finish.value ? "没有更多数据~" : "正在加载..."),
+        d: ((_a = common_vendor.unref(safeAreaInsets)) == null ? void 0 : _a.bottom) + "px",
+        e: common_vendor.o(onScrolltolower)
       });
     };
   }

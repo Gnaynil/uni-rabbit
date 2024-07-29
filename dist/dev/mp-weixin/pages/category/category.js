@@ -3,8 +3,7 @@ const common_vendor = require("../../common/vendor.js");
 const services_home = require("../../services/home.js");
 const services_category = require("../../services/category.js");
 require("../../utils/http.js");
-require("../../stores/index.js");
-require("../../stores/modules/member.js");
+require("../../stores/member.js");
 if (!Array) {
   const _easycom_XtxSwiper2 = common_vendor.resolveComponent("XtxSwiper");
   _easycom_XtxSwiper2();
@@ -53,7 +52,6 @@ const _sfc_main = {
             if (rect) {
               totalHeight += rect.height;
               if (index === categoryNumber.value[categoryIndex.value]) {
-                console.log(totalHeight);
                 categoryIndex.value++;
                 index = 0;
                 categoryHeight.value.push(totalHeight - 590);

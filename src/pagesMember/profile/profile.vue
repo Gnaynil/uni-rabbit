@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { getMemberProfileAPI, putMemberProfileAPI } from '@/services/profile.js'
-import { useMemberStore } from '@/stores/modules/member.js'
+import { useMemberStore } from '@/stores/member.js'
 import { onLoad } from '@dcloudio/uni-app'
 // 获取屏幕边界到安全区域距离
 const { safeAreaInsets } = uni.getSystemInfoSync()

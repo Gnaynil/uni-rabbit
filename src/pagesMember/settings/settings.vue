@@ -1,5 +1,5 @@
 <script setup>
-import { useMemberStore } from '@/stores/modules/member.js'
+import { useMemberStore } from '@/stores/member.js'
 const memberStore = useMemberStore()
 const logout = () =>{
   uni.showModal({

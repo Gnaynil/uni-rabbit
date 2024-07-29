@@ -2,8 +2,7 @@
 const common_vendor = require("../../common/vendor.js");
 const services_hot = require("../../services/hot.js");
 require("../../utils/http.js");
-require("../../stores/index.js");
-require("../../stores/modules/member.js");
+require("../../stores/member.js");
 const _sfc_main = {
   __name: "hot",
   props: {

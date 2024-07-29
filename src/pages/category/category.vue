@@ -62,7 +62,6 @@ const getCategoryHeight = () => {
           totalHeight += rect.height
           // 判断当前索引值是否等于一级里的二级分类数量和
           if (index === categoryNumber.value[categoryIndex.value]) {
-            console.log(totalHeight)
             categoryIndex.value++
             index = 0
             // 将当前总高度存入数组 因为存在误差所以减去590个像素点

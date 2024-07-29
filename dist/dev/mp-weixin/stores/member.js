@@ -1,5 +1,5 @@
 "use strict";
-const common_vendor = require("../../common/vendor.js");
+const common_vendor = require("../common/vendor.js");
 const useMemberStore = common_vendor.defineStore(
   "member",
   () => {
